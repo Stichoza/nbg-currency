@@ -106,7 +106,7 @@ NbgCurrency::getUah();  // same as NbgCurrency::get('uah');
 
 ### General Recommendations
 
-Each method call maps to a SOAP web service method. So it's better to remember a rate in a variable or even store a result in a cache if poddible.
+Each method call maps to a SOAP web service method. So it's better to remember a rate in a variable or even store a result in a cache if possible.
 
 ##### DO:
 ```php
