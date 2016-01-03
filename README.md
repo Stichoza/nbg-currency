@@ -70,9 +70,10 @@ This method returns an object containing all data described above.
 
 ```php
 $currency = NbgCurrency::get('usd');
-$currency->date->format('j F Y');
-$currency->rate;
-$currency->diff;
+
+$currency->date->format('j F Y'); // 1 January 2016
+$currency->rate; // 2.3966
+$currency->diff; // 0.0017
 // etc.
 ```
 
