@@ -2,6 +2,7 @@
 
 namespace Stichoza\NbgCurrency;
 
+use Carbon\Carbon;
 use Exception;
 use SoapClient;
 
@@ -17,7 +18,7 @@ class NbgCurrency
     /**
      * @var SoapClient
      */
-    private static $soap;
+    private static $client;
 
     /**
      * @var string WSDL address
@@ -41,9 +42,9 @@ class NbgCurrency
         'text'   => 'GetCurrencyDescription',
     ];
 
-    private static checkClient() {
-        if ( ! isset(self::$soapClient)) {
-            self::$soapClient = new SoapClient(self::$wsdl);
+    private static function checkClient() {
+        if ( ! isset(self::$client)) {
+            self::$client = new SoapClient(self::$wsdl);
         }
     }
 
@@ -58,12 +59,13 @@ class NbgCurrency
 
         // Date is a cool guy
         if ($name == 'date') {
-            // return Carbon::createFromFormat('Y-m-d', self::$soap->GetDate());
+            return Carbon::parse(self::$client->GetDate());
         }
 
         if (in_array($name, array_keys(self::$methodMap))) {
             $method = self::$methodMap[$name];
-            return self::$method(strtoupper($args[0]));
+            print 'Calling ' . $method . ' with param ' . strtoupper($args[0]) . PHP_EOL;
+            return self::$client->$method(strtoupper($args[0]));
         }
 
         foreach (self::$methodMap as $method => $soapMethod) {
