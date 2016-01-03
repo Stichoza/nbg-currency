@@ -14,6 +14,12 @@ composer require stichoza/nbg-currency
 
 ## Usage
 
+The class is namespaced as `Stichoza\NbgCurrency\NbgCurrency`, so use it like
+
+```php
+use Stichoza\NbgCurrency\NbgCurrency;
+```
+
 This package is very easy to use and has a few methods. **Keep in mind that method names are not same as NBG's SOAP service.** This package has more intuitive method names.
 
 In addition, currencies are **not** case-sensitive here.
@@ -96,4 +102,28 @@ NbgCurrency::ratePln(); // same as NbgCurrency::rate('pln');
 NbgCurrency::diffEur(); // same as NbgCurrency::diff('eur');
 NbgCurrency::getUah();  // same as NbgCurrency::get('uah');
 // etc.
+```
+
+### General Recommendations
+
+Each method call maps to a SOAP web service method. So it's better to remember a rate in a variable or even store a result in a cache if poddible.
+
+##### DO:
+```php
+$dollars = [199, 340.5, 230.25, 30, 78.99];
+$usdRate = NbgCurrency::rateUsd();
+
+foreach ($dollars as $d) {
+	echo $d * $usdRate;
+}
+```
+
+##### DO NOT:
+
+```php
+$dollars = [199, 340.5, 230.25, 30, 78.99];
+
+foreach ($dollars as $d) {
+	echo $d * NbgCurrency::rateUsd();
+}
 ```
