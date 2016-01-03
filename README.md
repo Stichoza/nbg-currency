@@ -50,12 +50,12 @@ Currency rate change. `-1` if decreased, `0` if unchanged and `1` if increased.
 NbgCurrency::change('usd'); // 1
 ```
 
-##### `text($currency)`
+##### `description($currency)`
 
 Get the description of currency rate.
 
 ```php
-NbgCurrency::text('eek'); // 10 ესტონური კრონი
+NbgCurrency::description('eek'); // 10 ესტონური კრონი
 ```
 
 ##### `date()`
@@ -94,7 +94,7 @@ NbgCurrency::isSupported('lol'); // false
 
 ### Fluent Methods
 
-Some methods (`get`, `rate`, `text`, `change`, `diff`) are available to call fluently like so:
+Some methods (`get`, `rate`, `description`, `change`, `diff`) are available to call fluently like so:
 
 ```php
 NbgCurrency::rateUsd(); // same as NbgCurrency::rate('usd');

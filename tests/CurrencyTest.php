@@ -36,10 +36,10 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('double', $a);
     }
 
-    public function testText()
+    public function testDescription()
     {
-        $a = NbgCurrency::text('usd');
-        $b = NbgCurrency::textUsd();
+        $a = NbgCurrency::description('usd');
+        $b = NbgCurrency::descriptionUsd();
         $this->assertEquals($a, $b);
         $this->assertNotEquals($a, '');
         $this->assertInternalType('string', $a);
@@ -64,16 +64,16 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $object = NbgCurrency::get('usd');
-        $change = NbgCurrency::change('usd');
-        $rate   = NbgCurrency::rate('usd');
-        $diff   = NbgCurrency::diff('usd');
-        $text   = NbgCurrency::text('usd');
-        $date   = NbgCurrency::date();
+        $object      = NbgCurrency::get('usd');
+        $change      = NbgCurrency::change('usd');
+        $rate        = NbgCurrency::rate('usd');
+        $diff        = NbgCurrency::diff('usd');
+        $date        = NbgCurrency::date();
+        $description = NbgCurrency::description('usd');
         $this->assertEquals($object->change, $change);
         $this->assertEquals($object->rate, $rate);
         $this->assertEquals($object->diff, $diff);
-        $this->assertEquals($object->text, $text);
+        $this->assertEquals($object->description, $description);
         $this->assertEquals($object->date->toDayDateTimeString(), $date->toDayDateTimeString());
     }
 
