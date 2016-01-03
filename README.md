@@ -1,6 +1,7 @@
 # NBG Currency
 National Bank of Georgia (NBG) currency service API wrapper in PHP
 
+[![Build Status](https://travis-ci.org/Stichoza/nbg-currency.svg?branch=master)](https://travis-ci.org/Stichoza/nbg-currency) [![Latest Stable Version](https://img.shields.io/packagist/v/Stichoza/nbg-currency.svg)](https://packagist.org/packages/stichoza/nbg-currency) [![Total Downloads](https://img.shields.io/packagist/dt/Stichoza/nbg-currency.svg)](https://packagist.org/packages/stichoza/nbg-currency)
 
 ## Installation
 
