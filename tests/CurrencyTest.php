@@ -79,7 +79,7 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
 
     public function testUnsupportedCurrency()
     {
-        $a = NbgCurrency::currencyIsSupported('lol');
+        $a = NbgCurrency::isSupported('lol');
         $b = NbgCurrency::diff('lol');
         $this->assertFalse($a);
         $this->assertEquals($b, 0);

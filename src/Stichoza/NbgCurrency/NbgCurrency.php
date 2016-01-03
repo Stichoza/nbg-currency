@@ -63,7 +63,7 @@ class NbgCurrency
      * @param  string $currency Currency
      * @return boolean If the currency is supported
      */
-    public static function currencyIsSupported($currency)
+    public static function isSupported($currency)
     {
         return in_array(strtoupper($currency), self::$supportedCurrencies);
     }

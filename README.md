@@ -77,13 +77,13 @@ $currency->diff; // 0.0017
 // etc.
 ```
 
-#### `currencyIsSupported($currency)`
+#### `isSupported($currency)`
 
 Check if the currency is supported.
 
 ```php
-NbgCurrency::currencyIsSupported('usd'); // true
-NbgCurrency::currencyIsSupported('lol'); // false
+NbgCurrency::isSupported('usd'); // true
+NbgCurrency::isSupported('lol'); // false
 ```
 
 ### Fluent Methods
