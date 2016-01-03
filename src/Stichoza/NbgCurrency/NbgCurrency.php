@@ -35,45 +35,107 @@ class NbgCurrency
         'RUB', 'SEK', 'SGD', 'TJS', 'TMT', 'TRY', 'UAH', 'USD', 'UZS',
     ];
     
-    private static $methodMap = [
-        'change' => 'GetCurrencyRate',
-        'diff'   => 'GetCurrencyChange',
-        'rate'   => 'GetCurrency',
-        'text'   => 'GetCurrencyDescription',
-    ];
+    /**
+     * @var Array List of fluent methods
+     */
+    private static $fluentMethods = ['change', 'diff', 'rate', 'text'];
 
+    /**
+     * Check is SOAP client is set and instantiate if not.
+     */
     private static function checkClient() {
         if ( ! isset(self::$client)) {
             self::$client = new SoapClient(self::$wsdl);
         }
     }
 
+    /**
+     * Transform string to valid currency string
+     * @param  string $currency Input string
+     * @return string Output string
+     */
+    private static function transformToValidCurrency($currency) {
+        return strtoupper($currency);
+    }
+
+    /**
+     * Check if currency is supported.
+     * @param  string $currency Currency
+     * @return boolean If the currency is supported
+     */
     public static function currencyIsSupported($currency)
     {
         return in_array(strtoupper($currency), self::$supportedCurrencies);
     }
 
-    public static function __callStatic($name, $args) {
-        // Check client
+    /**
+     * Get the date of exchange rates
+     * @return Carbon\Carbon A Carbon object representing the date
+     */
+    public static function date()
+    {
         self::checkClient();
+        return Carbon::parse(self::$client->GetDate());
+    }
 
-        // Date is a cool guy
-        if ($name == 'date') {
-            return Carbon::parse(self::$client->GetDate());
-        }
+    /**
+     * Get the currency rate
+     * @param  string $currency Currency
+     * @return double Currency rate
+     */
+    public static function rate($currency)
+    {
+        self::checkClient();
+        return (double) self::$client->GetCurrency(self::transformToValidCurrency($currency));
+    }
 
-        if (in_array($name, array_keys(self::$methodMap))) {
-            $method = self::$methodMap[$name];
-            print 'Calling ' . $method . ' with param ' . strtoupper($args[0]) . PHP_EOL;
-            return self::$client->$method(strtoupper($args[0]));
-        }
+    /**
+     * Get the currency rate description
+     * @param  string $currency Currency
+     * @return string Currency rate description
+     */
+    public static function text($currency)
+    {
+        self::checkClient();
+        return self::$client->GetDescription(self::transformToValidCurrency($currency));
+    }
 
-        foreach (self::$methodMap as $method => $soapMethod) {
+    /**
+     * Get the currency rate difference
+     * @param  string $currency Currency
+     * @return double Currency rate difference
+     */
+    public static function diff($currency)
+    {
+        self::checkClient();
+        return (double) self::$client->GetCurrencyChange(self::transformToValidCurrency($currency));
+    }
+
+    /**
+     * Get the currency rate change status (-1 if decreased, 0 is unchanged, 1 if increased)
+     * @param  string $currency Currency
+     * @return int Currency rate change
+     */
+    public static function change($currency)
+    {
+        self::checkClient();
+        return (int) self::$client->GetCurrencyRate(self::transformToValidCurrency($currency));
+    }
+
+    /**
+     * Handle fluent method calls
+     * @param  string $name Method name
+     * @param  string $args Method arguments
+     * @return mixed Result
+     */
+    public static function __callStatic($name, $args)
+    {
+        foreach (self::$fluentMethods as $method) {
             if (preg_match('/^' . $method . '/', $name)) {
-                return self::$method(strtoupper($args[0]));
+                return self::$method(substr($name, strlen($method)));
             }
         }
-        
+        throw new Exception('lolwat');
     }
 
 }
