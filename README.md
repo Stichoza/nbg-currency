@@ -77,7 +77,7 @@ $currency->diff; // 0.0017
 // etc.
 ```
 
-#### `isSupported($currency)`
+##### `isSupported($currency)`
 
 Check if the currency is supported.
 
