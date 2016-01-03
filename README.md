@@ -12,7 +12,7 @@ composer require stichoza/nbg-currency
 
 ## Usage
 
-This package is very easy to use and has only 6 methods. **Keep in mind that method names are not same as NBG's SOAP service.** This package has more intuitive method names.
+This package is very easy to use and has a few methods. **Keep in mind that method names are not same as NBG's SOAP service.** This package has more intuitive method names.
 
 In addition, currencies are **not** case-sensitive here.
 
