@@ -62,6 +62,21 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('double', $a);
     }
 
+    public function testGet()
+    {
+        $object = NbgCurrency::get('usd');
+        $change = NbgCurrency::change('usd');
+        $rate   = NbgCurrency::rate('usd');
+        $diff   = NbgCurrency::diff('usd');
+        $text   = NbgCurrency::text('usd');
+        $date   = NbgCurrency::date();
+        $this->assertEquals($object->change, $change);
+        $this->assertEquals($object->rate, $rate);
+        $this->assertEquals($object->diff, $diff);
+        $this->assertEquals($object->text, $text);
+        $this->assertEquals($object->date->toDayDateTimeString(), $date->toDayDateTimeString());
+    }
+
     public function testUnsupportedCurrency()
     {
         $a = NbgCurrency::currencyIsSupported('lol');

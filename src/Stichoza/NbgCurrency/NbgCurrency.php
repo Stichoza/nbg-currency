@@ -38,7 +38,7 @@ class NbgCurrency
     /**
      * @var Array List of fluent methods
      */
-    private static $fluentMethods = ['change', 'diff', 'rate', 'text'];
+    private static $fluentMethods = ['get', 'change', 'diff', 'rate', 'text'];
 
     /**
      * Check is SOAP client is set and instantiate if not.
@@ -120,6 +120,22 @@ class NbgCurrency
     {
         self::checkClient();
         return (int) self::$client->GetCurrencyRate(self::transformToValidCurrency($currency));
+    }
+
+    /**
+     * Get all information about currency rate
+     * @param  string $currency Currency
+     * @return object Currency rate data
+     */
+    public static function get($currency)
+    {
+        return (object) [
+            'date'   => self::date(),
+            'rate'   => self::rate($currency),
+            'diff'   => self::diff($currency),
+            'text'   => self::text($currency),
+            'change' => self::change($currency),
+        ];
     }
 
     /**
