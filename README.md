@@ -62,6 +62,18 @@ NbgCurrency::date()->isPast();        // true
 // etc.
 ```
 
+#### `get()`
+
+This method returns an object containing all data described above.
+
+```php
+$currency = NbgCurrency::get('usd');
+$currency->date->format('j F Y');
+$currency->rate;
+$currency->diff;
+// etc.
+```
+
 #### `currencyIsSupported($currency)`
 
 Check if the currency is supported.
@@ -73,11 +85,12 @@ NbgCurrency::currencyIsSupported('lol'); // false
 
 ### Fluent Methods
 
-Some methods (`rate`, `text`, `change`, `diff`) are available to call fluently like so:
+Some methods (`get`, `rate`, `text`, `change`, `diff`) are available to call fluently like so:
 
 ```php
 NbgCurrency::rateUsd(); // same as NbgCurrency::rate('usd');
 NbgCurrency::ratePln(); // same as NbgCurrency::rate('pln');
 NbgCurrency::diffEur(); // same as NbgCurrency::diff('eur');
+NbgCurrency::getUah();  // same as NbgCurrency::get('uah');
 // etc.
 ```
