@@ -97,7 +97,7 @@ class NbgCurrency
     public static function text($currency)
     {
         self::checkClient();
-        return self::$client->GetDescription(self::transformToValidCurrency($currency));
+        return self::$client->GetCurrencyDescription(self::transformToValidCurrency($currency));
     }
 
     /**
