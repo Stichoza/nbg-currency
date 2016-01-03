@@ -1,0 +1,32 @@
+{
+    "name": "stichoza/nbg-currency",
+    "description": "National Bank of Georgia (NBG) currency service API wrapper",
+    "keywords": ["nbg", "bank", "georgia", "currency", "rate"],
+    "license": "MIT",
+    "homepage": "http://github.com/Stichoza/nbg-currency",
+    "authors": [
+        {
+            "name": "Levan Velijanashvili",
+            "email": "me@stichoza.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Stichoza\\NbgCurrency\\": "src/"
+        },
+        "psr-4": {
+            "Stichoza\\NbgCurrency\\": "src/Stichoza/NbgCurrency/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Stichoza\\NbgCurrency\\Tests\\": "tests/"
+        }
+    }
+}
