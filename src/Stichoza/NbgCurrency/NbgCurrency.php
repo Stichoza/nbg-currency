@@ -2,8 +2,8 @@
 
 namespace Stichoza\NbgCurrency;
 
+use BadMethodCallException;
 use Carbon\Carbon;
-use Exception;
 use SoapClient;
 
 /**
@@ -135,7 +135,7 @@ class NbgCurrency
                 return self::$method(substr($name, strlen($method)));
             }
         }
-        throw new Exception('lolwat');
+        throw new BadMethodCallException("Method [{$name}] does not exist");
     }
 
 }
