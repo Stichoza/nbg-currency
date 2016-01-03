@@ -20,7 +20,7 @@ In addition, currencies are **not** case-sensitive here.
 
 ### Methods
 
-#### `rate($currency)`
+##### `rate($currency)`
 
 Get the currency rate.
 
@@ -28,7 +28,7 @@ Get the currency rate.
 NbgCurrency::rate('usd'); // 2.3966
 ```
 
-#### `diff($currency)`
+##### `diff($currency)`
 
 Get the rate difference.
 
@@ -36,7 +36,7 @@ Get the rate difference.
 NbgCurrency::diff('usd'); // 0.0017
 ```
 
-#### `change($currency)`
+##### `change($currency)`
 
 Currency rate change. `-1` if decreased, `0` if unchanged and `1` if increased.
 
@@ -44,7 +44,7 @@ Currency rate change. `-1` if decreased, `0` if unchanged and `1` if increased.
 NbgCurrency::change('usd'); // 1
 ```
 
-#### `text($currency)`
+##### `text($currency)`
 
 Get the description of currency rate.
 
@@ -52,7 +52,7 @@ Get the description of currency rate.
 NbgCurrency::text('eek'); // 10 ესტონური კრონი
 ```
 
-#### `date()`
+##### `date()`
 
 Get the date of currency rates. Returns [Carbon](http://carbon.nesbot.com) object representing the date. [All carbon methods](http://carbon.nesbot.com/docs/#api-difference) are available on this object.
 
@@ -64,7 +64,7 @@ NbgCurrency::date()->isPast();        // true
 // etc.
 ```
 
-#### `get()`
+##### `get($currency)`
 
 This method returns an object containing all data described above.
 
