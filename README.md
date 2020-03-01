@@ -127,3 +127,7 @@ foreach ($dollars as $d) {
 	echo $d * NbgCurrency::rateUsd();
 }
 ```
+
+### Keywords
+
+> ლარის კურსი, ეროვნული ბანკის გაცვლითი კურსი, ვალუტა, ლარის ვალუტის კურსი, laris kursi, laris valuta, lari currency, national bank of georgia, nbg
