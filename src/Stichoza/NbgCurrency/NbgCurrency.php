@@ -36,7 +36,7 @@ class NbgCurrency
     ];
     
     /**
-     * @var Array List of fluent methods
+     * @var array List of fluent methods
      */
     private static $fluentMethods = ['get', 'change', 'diff', 'rate', 'description'];
 
@@ -70,7 +70,7 @@ class NbgCurrency
 
     /**
      * Get the date of exchange rates
-     * @return Carbon\Carbon A Carbon object representing the date
+     * @return Carbon A Carbon object representing the date
      */
     public static function date()
     {
