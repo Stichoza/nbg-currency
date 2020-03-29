@@ -12,7 +12,7 @@ Install this package via [Composer](https://getcomposer.org/).
 composer require stichoza/nbg-currency
 ```
 
-> **Note:** PHP 7.1.8+ is required. For older versions, please use v1.2.
+> Note: **PHP 7.1.8 or later** is required. For older versions, use `^1.2` version of this package.
 
 ## Usage
 
