@@ -12,6 +12,8 @@ Install this package via [Composer](https://getcomposer.org/).
 composer require stichoza/nbg-currency
 ```
 
+> **Note:** PHP 7.1.8+ is required. For older versions, please use v1.2.
+
 ## Usage
 
 The class is namespaced as `Stichoza\NbgCurrency\NbgCurrency`, so use it like
