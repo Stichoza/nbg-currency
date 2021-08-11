@@ -23,7 +23,7 @@ class NbgCurrency
     /**
      * @var string WSDL address
      */
-    private static $wsdl = 'http://nbg.gov.ge/currency.wsdl';
+    private static $wsdl = 'https://old.nbg.gov.ge/currency.wsdl';
 
     /**
      * @var array List of all supported currencies
