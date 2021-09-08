@@ -28,7 +28,7 @@ class NbgCurrency
     /**
      * @var array List of fluent methods
      */
-    private static $fluentMethods = ['get', 'change', 'diff', 'rate', 'description'];
+    protected static $fluentMethods = ['get', 'change', 'diff', 'rate', 'description', 'name'];
 
     /**
      * Check is SOAP client is set and instantiate if not.
