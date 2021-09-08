@@ -142,7 +142,7 @@ class NbgCurrency
     {
         self::fetch();
 
-        return (float) self::$data[self::format($currency)]['name'];
+        return self::$data[self::format($currency)]['name'];
     }
 
     /**
