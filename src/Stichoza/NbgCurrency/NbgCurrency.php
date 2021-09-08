@@ -31,11 +31,25 @@ class NbgCurrency
     protected static $fluentMethods = ['get', 'change', 'diff', 'rate', 'description', 'name'];
 
     /**
-     * Check is SOAP client is set and instantiate if not.
+     * Make sure the data is fetched.
+     *
+     * @throws \InvalidArgumentException
      */
-    private static function checkClient() {
-        if ( ! isset(self::$client)) {
-            self::$client = new SoapClient(self::$wsdl);
+    protected static function fetch(bool $force = false): void
+    {
+        if (self::$data && !$force) {
+            return;
+        }
+
+        try {
+            $data = file_get_contents(self::$url); // Get URL contents
+            $data = json_decode($data, true); // Decode JSON to associative array
+            $data = $data[0]['currencies']; // Get currency data
+            $data = array_combine(array_column($data, 'code'), $data); // Set code as array keys
+
+            self::$data = $data;
+        } catch (Throwable $e) {
+            throw new \ErrorException('Error fetching data from NBG');
         }
     }
 
