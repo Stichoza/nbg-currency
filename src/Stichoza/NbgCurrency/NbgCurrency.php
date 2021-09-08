@@ -21,20 +21,10 @@ class NbgCurrency
     private static $client;
 
     /**
-     * @var string WSDL address
+     * @var string JSON URL
      */
-    private static $wsdl = 'http://nbg.gov.ge/currency.wsdl';
+    protected static $url = 'https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json';
 
-    /**
-     * @var array List of all supported currencies
-     */
-    private static $supportedCurrencies = [
-        'AED', 'AMD', 'AUD', 'AZN', 'BGN', 'BYR', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK',
-        'EEK', 'EGP', 'EUR', 'GBP', 'HKD', 'HUF', 'ILS', 'INR', 'IRR', 'ISK', 'JPY',
-        'KGS', 'KWD', 'KZT', 'LTL', 'LVL', 'MDL', 'NOK', 'NZD', 'PLN', 'RON', 'RSD',
-        'RUB', 'SEK', 'SGD', 'TJS', 'TMT', 'TRY', 'UAH', 'USD', 'UZS',
-    ];
-    
     /**
      * @var array List of fluent methods
      */
