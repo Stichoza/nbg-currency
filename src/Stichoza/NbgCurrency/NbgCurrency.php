@@ -4,7 +4,9 @@ namespace Stichoza\NbgCurrency;
 
 use BadMethodCallException;
 use Carbon\Carbon;
-use SoapClient;
+use Exception;
+use stdClass;
+use Throwable;
 
 /**
  * NBG currency service wrapper class
@@ -15,10 +17,7 @@ use SoapClient;
  */
 class NbgCurrency
 {
-    /**
-     * @var SoapClient
-     */
-    private static $client;
+    protected static $data = null;
 
     /**
      * @var string JSON URL
@@ -54,84 +53,155 @@ class NbgCurrency
     }
 
     /**
-     * Transform string to valid currency string
+     * Transform string to valid currency string.
+     *
+     * @param string $currency Input string
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected static function checkCurrency(string $currency): void
+    {
+        if (!self::isSupported($currency)) {
+            throw new \InvalidArgumentException('Currency ' . $currency . 'is not supported.');
+        }
+    }
+
+    /**
+     * Transform string to valid currency string.
+     *
      * @param  string $currency Input string
      * @return string Output string
      */
-    private static function transformToValidCurrency($currency) {
+    protected static function format(string $currency): string
+    {
         return strtoupper($currency);
     }
 
     /**
      * Check if currency is supported.
-     * @param  string $currency Currency
-     * @return boolean If the currency is supported
+     *
+     * @param string $currency Currency
+     *
+     * @return bool If the currency is supported
+     * @throws \InvalidArgumentException
      */
-    public static function isSupported($currency)
+    public static function isSupported(string $currency): bool
     {
-        return in_array(strtoupper($currency), self::$supportedCurrencies);
+        self::fetch();
+
+        return isset(self::$data[self::format($currency)]);
     }
 
     /**
-     * Get the date of exchange rates
+     * @throws \InvalidArgumentException
+     */
+    public static function refresh()
+    {
+        self::fetch(true);
+    }
+
+    /**
+     * Get the date of exchange rates.
+     *
+     * @param string $currency Currency
+     *
      * @return Carbon A Carbon object representing the date
+     * @throws \InvalidArgumentException
      */
-    public static function date()
+    public static function date(string $currency = 'USD'): Carbon
     {
-        self::checkClient();
-        return Carbon::parse(self::$client->GetDate());
+        self::fetch();
+
+        return Carbon::parse(self::$data[self::format($currency)]['date']);
     }
 
     /**
-     * Get the currency rate
-     * @param  string $currency Currency
-     * @return double Currency rate
+     * Get the currency rate.
+     *
+     * @param string $currency Currency
+     *
+     * @return float Currency rate
+     * @throws \InvalidArgumentException
      */
-    public static function rate($currency)
+    public static function rate(string $currency = 'USD'): float
     {
-        self::checkClient();
-        return (double) self::$client->GetCurrency(self::transformToValidCurrency($currency));
+        self::fetch();
+
+        return (float) self::$data[self::format($currency)]['rate'];
     }
 
     /**
-     * Get the currency rate description
-     * @param  string $currency Currency
+     * Get the currency rate name.
+     *
+     * @param string $currency Currency
+     *
+     * @return string Currency rate name
+     * @throws \InvalidArgumentException
+     */
+    public static function name(string $currency): ?string
+    {
+        self::fetch();
+
+        return (float) self::$data[self::format($currency)]['name'];
+    }
+
+    /**
+     * Get the currency rate description. Alias of name.
+     *
+     * @param string $currency Currency
+     *
+     * @deprecated Use name() instead.
+     *
      * @return string Currency rate description
+     * @throws \InvalidArgumentException
      */
-    public static function description($currency)
+    public static function description(string $currency): ?string
     {
-        self::checkClient();
-        return self::$client->GetCurrencyDescription(self::transformToValidCurrency($currency));
+        return self::name($currency);
     }
 
     /**
-     * Get the currency rate difference
-     * @param  string $currency Currency
-     * @return double Currency rate difference
+     * Get the currency rate difference.
+     *
+     * @param string $currency Currency
+     * @param bool $absolute Return absolute value. This is for legacy reasons. Will be removed.
+     *
+     * @return float Currency rate difference
+     * @throws \InvalidArgumentException
      */
-    public static function diff($currency)
+    public static function diff(string $currency, bool $absolute = true): float
     {
-        self::checkClient();
-        return (double) self::$client->GetCurrencyChange(self::transformToValidCurrency($currency));
+        self::fetch();
+
+        $diff = self::$data[self::format($currency)]['diff'];
+
+        return (float) $absolute ? abs($diff) : $diff;
     }
 
     /**
-     * Get the currency rate change status (-1 if decreased, 0 is unchanged, 1 if increased)
-     * @param  string $currency Currency
+     * Get the currency rate change status (-1 if decreased, 0 is unchanged, 1 if increased).
+     *
+     * @param string $currency Currency
+     *
      * @return int Currency rate change
+     * @throws \InvalidArgumentException
      */
-    public static function change($currency)
+    public static function change(string $currency): int
     {
-        self::checkClient();
-        return (int) self::$client->GetCurrencyRate(self::transformToValidCurrency($currency));
+        self::fetch();
+
+        return self::diff($currency, false) <=> 0;
     }
 
     /**
-     * Get all information about currency rate
-     * @param  string $currency Currency
+     * Get all information about currency rate.
+     *
+     * @param string $currency Currency
+     *
      * @return object Currency rate data
+     * @throws \InvalidArgumentException
      */
-    public static function get($currency)
+    public static function get(string $currency): stdClass
     {
         return (object) [
             'date'        => self::date(),
@@ -143,7 +213,8 @@ class NbgCurrency
     }
 
     /**
-     * Handle fluent method calls
+     * Handle fluent method calls.
+     *
      * @param  string $name Method name
      * @param  string $args Method arguments
      * @return mixed Result
@@ -152,10 +223,11 @@ class NbgCurrency
     {
         foreach (self::$fluentMethods as $method) {
             if (preg_match('/^' . $method . '/', $name)) {
-                return self::$method(substr($name, strlen($method)));
+                return self::$method(substr($name, strlen($method))
+                );
             }
         }
-        throw new BadMethodCallException("Method [{$name}] does not exist");
+        throw new BadMethodCallException('Method ' . $name . ' does not exist');
     }
 
 }
