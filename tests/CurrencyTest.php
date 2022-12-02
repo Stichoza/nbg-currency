@@ -1,85 +1,54 @@
 <?php
 namespace Stichoza\NbgCurrency\Tests;
 
-use BadMethodCallException;
 use Carbon\Carbon;
+use DateTime;
 use PHPUnit\Framework\TestCase;
-use Stichoza\NbgCurrency;
+use Stichoza\NbgCurrency\Data\Currencies;
+use Stichoza\NbgCurrency\NbgCurrency;
 
 class CurrencyTest extends TestCase
 {
-    public function testWtfMethod(): void
+    public function testStaticGet(): void
     {
-        $this->expectException(BadMethodCallException::class);
+        $currency = NbgCurrency::get('usd');
 
-        NbgCurrency::neverGonnaGiveYouUp();
+        $this->assertEqualsIgnoringCase('usd', $currency->code);
+        $this->assertGreaterThan(0, $currency->rate);
+        $this->assertNotEmpty($currency->name);
+        $this->assertContains($currency->diff, [-1, 0, 1]);
+        $this->assertContains($currency->change, [-1, 0, 1]);
     }
 
-    public function testDate(): void
+    public function testDateMethod(): void
     {
-        $date = NbgCurrency::date();
+        $currenciesNull = NbgCurrency::date();
+        $currenciesYesterday = NbgCurrency::date('yesterday');
+        $currenciesString = NbgCurrency::date('2022-11-11');
+        $currenciesDateTime = NbgCurrency::date(new DateTime('2022-11-11'));
+        $currenciesCarbon = NbgCurrency::date(Carbon::today());
 
-        $this->assertInstanceOf(Carbon::class, $date, 'The date() method should return Carbon instance.');
+        $this->assertInstanceOf(Currencies::class, $currenciesNull);
+        $this->assertInstanceOf(Currencies::class, $currenciesYesterday);
+        $this->assertInstanceOf(Currencies::class, $currenciesString);
+        $this->assertInstanceOf(Currencies::class, $currenciesDateTime);
+        $this->assertInstanceOf(Currencies::class, $currenciesCarbon);
     }
 
-    public function testRate()
+    public function testDateEquality(): void
     {
-        $a = NbgCurrency::rate('usd');
-        $b = NbgCurrency::rateUsd();
+        $currencies1 = NbgCurrency::date('yesterday');
+        $currencies2 = NbgCurrency::date(Carbon::yesterday());
 
-        $this->assertEquals($a, $b, 'Values from magic method and rate() should be the same.');
-        $this->assertNotEquals(0, $a, 'Rate should not be zero.');
+        $this->assertEquals($currencies1->date->toDateString(), $currencies2->date->toDateString());
     }
 
-    public function testName(): void
+    public function testDateAndGetEquality(): void
     {
-        $a = NbgCurrency::name('usd');
-        $b = NbgCurrency::nameUsd();
+        $currency1 = NbgCurrency::date('yesterday')->get('usd');
+        $currency2 = NbgCurrency::get('usd', 'yesterday');
 
-        $this->assertEquals($a, $b, 'Values from magic method and name() should be the same.');
-        $this->assertNotEquals('', $a, 'Name should not be empty.');
-        $this->assertNotNull($a, 'Name should not be null.');
+        $this->assertEquals($currency1->rate, $currency2->rate);
     }
 
-    public function testChange(): void
-    {
-        $a = NbgCurrency::change('usd');
-        $b = NbgCurrency::changeUsd();
-
-        $this->assertEquals($a, $b, 'Values from magic method and change() should be the same.');
-        $this->assertContains($a, [-1, 0, 1], 'Change should be either -1, 0, or 1.');
-    }
-
-    public function testDiff(): void
-    {
-        $a = NbgCurrency::diff('usd');
-        $b = NbgCurrency::diffUsd();
-
-        $this->assertEquals($a, $b, 'Values from magic method and diff() should be the same.');
-    }
-
-    public function testGet(): void
-    {
-        $object      = NbgCurrency::get('usd');
-        $change      = NbgCurrency::change('usd');
-        $rate        = NbgCurrency::rate('usd');
-        $diff        = NbgCurrency::diff('usd');
-        $date        = NbgCurrency::date();
-        $name        = NbgCurrency::name('usd');
-
-        $this->assertEquals($object->change, $change);
-        $this->assertEquals($object->rate, $rate);
-        $this->assertEquals($object->diff, $diff);
-        $this->assertEquals($object->name, $name);
-        $this->assertEquals($object->date->toDayDateTimeString(), $date->toDayDateTimeString());
-    }
-
-    public function testUnsupportedCurrency(): void
-    {
-        $a = NbgCurrency::isSupported('lol');
-        $b = NbgCurrency::diff('lol');
-
-        $this->assertFalse($a, 'Currency "lol" should not be supported.');
-        $this->assertEquals(0, $b, 'Diff of non-existing currency should be zero.');
-    }
 }
