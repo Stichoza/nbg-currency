@@ -11,20 +11,23 @@ Install this package via [Composer](https://getcomposer.org/).
 ```
 composer require stichoza/nbg-currency
 ```
+> Note: PHP 8.1 or later is required. Use following versions of this package for older PHP versions:
 
-> Note: **PHP 7.1.8 or later** is required. For older versions, use `^1.2` version of this package.
+| Package version | PHP Version  | Documentation                                                                                 |
+|-----------------|--------------|-----------------------------------------------------------------------------------------------|
+| `v3.0`          | PHP >= 8.1   | [v3 Docs](#nbg-currency)                                                                      |
+| `v2.0`          | PHP >= 7.1.8 | [v2 Docs](https://github.com/Stichoza/nbg-currency/tree/2.0#nbg-currency)                     |
+| ~~`v1.2`~~      | PHP >= 5.5.9 | ~~[v1.2 Docs](https://github.com/Stichoza/nbg-currency/tree/1.2#nbg-currency)~~ (not working) |
 
 ## Usage
 
-The class is namespaced as `Stichoza\NbgCurrency\NbgCurrency`, so use it like
+The class is namespaced as `Stichoza\NbgCurrency\NbgCurrency`:
 
 ```php
 use Stichoza\NbgCurrency\NbgCurrency;
 ```
 
-This package is very easy to use and has a few methods. **Keep in mind that method names are not same as NBG's SOAP service.** This package has more intuitive method names.
-
-In addition, currencies are **not** case-sensitive here.
+This package is very easy to use and has a few methods.
 
 ### Methods
 
