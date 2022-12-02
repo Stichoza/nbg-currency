@@ -4,6 +4,7 @@ namespace Stichoza\NbgCurrency\Data;
 
 use ArrayIterator;
 use Carbon\Carbon;
+use Countable;
 use Exception;
 use IteratorAggregate;
 use Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException;
@@ -11,7 +12,7 @@ use Stichoza\NbgCurrency\NbgCurrency;
 use Throwable;
 use Traversable;
 
-class Currencies implements IteratorAggregate
+class Currencies implements IteratorAggregate, Countable
 {
     public readonly Carbon $date;
 
@@ -103,5 +104,15 @@ class Currencies implements IteratorAggregate
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->currencies);
+    }
+
+    /**
+     * Count of currencies
+     *
+     * @return int<0,max> The count of currencies
+     */
+    public function count(): int
+    {
+        return count($this->currencies);
     }
 }
