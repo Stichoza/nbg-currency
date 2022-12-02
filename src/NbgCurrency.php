@@ -4,10 +4,10 @@ namespace Stichoza\NbgCurrency;
 
 use Carbon\Carbon;
 use DateTimeInterface;
-use JsonException;
 use Stichoza\NbgCurrency\Data\Currencies;
 use Stichoza\NbgCurrency\Data\Currency;
 use Stichoza\NbgCurrency\Exceptions\DateNotFoundException;
+use Stichoza\NbgCurrency\Exceptions\InvalidDateException;
 use Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException;
 use Stichoza\NbgCurrency\Exceptions\RequestFailedException;
 use Throwable;
@@ -90,11 +90,11 @@ class NbgCurrency
 
         // Seriously, it's `langaugeCode` in the API, lol
         if (($array['errors']['key'] ?? null) === 'langaugeCode') {
-            throw new LanguageNotAllowedException;
+            throw new LanguageNotAllowedException('Language code "' . $language . '" is not allowed');
         }
 
         if (!$array || empty($array[0]['date']) || empty($array[0]['currencies'])) {
-            throw new DateNotFoundException;
+            throw new DateNotFoundException('No rates found for ' . $date->toDateString());
         }
 
         return new Currencies(
