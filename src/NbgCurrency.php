@@ -39,7 +39,7 @@ class NbgCurrency
      */
     public static function get(string $currency, DateTimeInterface|string|null $date = null, string $language = 'ka', bool $throwExceptions = false): ?Currency
     {
-        return self::date($date, $language, $throwExceptions)->get($currency);
+        return self::date($date, $language, $throwExceptions)?->get($currency);
     }
 
     /**
