@@ -37,9 +37,9 @@ class NbgCurrency
      * @throws \Stichoza\NbgCurrency\Exceptions\InvalidDateException
      * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
      */
-    public static function get(string $currency, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
+    public static function get(string $currency, DateTimeInterface|string|null $date = null, string $language = 'ka', bool $throwExceptions = false): ?Currency
     {
-        return self::date($date, $language)->get($currency);
+        return self::date($date, $language, $throwExceptions)->get($currency);
     }
 
     /**
@@ -48,19 +48,31 @@ class NbgCurrency
      * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
      * @throws \Stichoza\NbgCurrency\Exceptions\InvalidDateException
      */
-    public static function date(DateTimeInterface|string|null $date = null, string $language = 'ka'): Currencies
+    public static function date(DateTimeInterface|string|null $date = null, string $language = 'ka', bool $throwExceptions = false): ?Currencies
     {
         if ($date !== null) {
             try {
                 $carbon = $date instanceof Carbon ? $date : Carbon::parse($date, self::TIMEZONE);
             } catch (Throwable $e) {
-                throw new InvalidDateException($e->getMessage());
+                if ($throwExceptions) {
+                    throw new InvalidDateException($e->getMessage());
+                }
+
+                return null;
             }
         } else {
             $carbon = Carbon::today(self::TIMEZONE);
         }
 
-        return self::$currencies[$language][$carbon->toDateString()] ??= self::request($carbon, $language);
+        if ($throwExceptions) {
+            return self::$currencies[$language][$carbon->toDateString()] ??= self::request($carbon, $language);
+        }
+
+        try {
+            return self::$currencies[$language][$carbon->toDateString()] ??= self::request($carbon, $language);
+        } catch (Throwable) {
+            return null; // TODO: Maybe set null in $currencies array too?
+        }
     }
 
     /**
