@@ -88,10 +88,14 @@ class NbgCurrency
             throw new DateNotFoundException('Date should not be in the future');
         }
 
-        $json = file_get_contents(sprintf(self::URL, $language) . $query);
+        try {
+            $json = file_get_contents(sprintf(self::URL, $language) . $query);
+        } catch (Throwable $e) {
+            throw new RequestFailedException($e->getMessage());
+        }
 
         if ($json === false) {
-            throw new RequestFailedException;
+            throw new RequestFailedException('Got empty response');
         }
 
         try {
