@@ -1,7 +1,7 @@
 {
     "name": "stichoza/nbg-currency",
     "description": "National Bank of Georgia (NBG) currency service API wrapper",
-    "keywords": ["nbg", "bank", "georgia", "currency", "rate"],
+    "keywords": ["nbg", "bank", "georgia", "currency", "rate", "valuta", "kursi"],
     "license": "MIT",
     "homepage": "http://github.com/Stichoza/nbg-currency",
     "authors": [
