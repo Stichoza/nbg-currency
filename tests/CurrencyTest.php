@@ -25,8 +25,8 @@ class CurrencyTest extends TestCase
         $currenciesNull = NbgCurrency::date();
         $currenciesYesterday = NbgCurrency::date('yesterday');
         $currenciesString = NbgCurrency::date('2022-11-11');
-        $currenciesDateTime = NbgCurrency::date(new DateTime('2022-11-11'));
-        $currenciesCarbon = NbgCurrency::date(Carbon::today());
+        $currenciesDateTime = NbgCurrency::date(new DateTime('2022-11-11', NbgCurrency::TIMEZONE));
+        $currenciesCarbon = NbgCurrency::date(Carbon::today(NbgCurrency::TIMEZONE));
 
         $this->assertInstanceOf(Currencies::class, $currenciesNull);
         $this->assertInstanceOf(Currencies::class, $currenciesYesterday);
@@ -38,7 +38,7 @@ class CurrencyTest extends TestCase
     public function testDateEquality(): void
     {
         $currencies1 = NbgCurrency::date('yesterday');
-        $currencies2 = NbgCurrency::date(Carbon::yesterday());
+        $currencies2 = NbgCurrency::date(Carbon::yesterday(NbgCurrency::TIMEZONE));
 
         $this->assertEquals($currencies1->date->toDateString(), $currencies2->date->toDateString());
     }
