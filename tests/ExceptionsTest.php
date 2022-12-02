@@ -16,35 +16,35 @@ class ExceptionsTest extends TestCase
     {
         $this->expectException(CurrencyNotFoundException::class);
 
-        NbgCurrency::get('abc', throwExceptions: true);
+        NbgCurrency::get('abc');
     }
 
     public function testCurrencyNotFoundExceptionWithDate(): void
     {
         $this->expectException(CurrencyNotFoundException::class);
 
-        NbgCurrency::date('yesterday', throwExceptions: true)->get('abc');
+        NbgCurrency::date('yesterday')->get('abc');
     }
 
     public function testDateNotFoundException(): void
     {
         $this->expectException(DateNotFoundException::class);
 
-        NbgCurrency::date('2000-01-01', throwExceptions: true);
+        NbgCurrency::date('2000-01-01');
     }
 
     public function testInvalidDateException(): void
     {
         $this->expectException(InvalidDateException::class);
 
-        NbgCurrency::date('123', throwExceptions: true);
+        NbgCurrency::date('123');
     }
 
     public function testInvalidDateExceptionFuture(): void
     {
         $this->expectException(InvalidDateException::class);
 
-        NbgCurrency::date('in 5 days', throwExceptions: true);
+        NbgCurrency::date('in 5 days');
     }
 
     /*
@@ -54,6 +54,6 @@ class ExceptionsTest extends TestCase
     {
         $this->expectException(RequestFailedException::class);
 
-        NbgCurrency::date(language: 'ab', throwExceptions: true);
+        NbgCurrency::date(language: 'ab');
     }
 }

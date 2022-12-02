@@ -37,9 +37,9 @@ class NbgCurrency
      * @throws \Stichoza\NbgCurrency\Exceptions\InvalidDateException
      * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
      */
-    public static function get(string $currency, DateTimeInterface|string|null $date = null, string $language = 'ka', bool $throwExceptions = false): ?Currency
+    public static function get(string $currency, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
     {
-        return self::date($date, $language, $throwExceptions)?->get($currency);
+        return self::date($date, $language)?->get($currency);
     }
 
     /**
@@ -48,31 +48,19 @@ class NbgCurrency
      * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
      * @throws \Stichoza\NbgCurrency\Exceptions\InvalidDateException
      */
-    public static function date(DateTimeInterface|string|null $date = null, string $language = 'ka', bool $throwExceptions = false): ?Currencies
+    public static function date(DateTimeInterface|string|null $date = null, string $language = 'ka'): Currencies
     {
         if ($date !== null) {
             try {
                 $carbon = $date instanceof Carbon ? $date : Carbon::parse($date, self::TIMEZONE);
             } catch (Throwable $e) {
-                if ($throwExceptions) {
-                    throw new InvalidDateException($e->getMessage());
-                }
-
-                return null;
+                throw new InvalidDateException($e->getMessage());
             }
         } else {
             $carbon = Carbon::today(self::TIMEZONE);
         }
 
-        if ($throwExceptions) {
-            return self::$currencies[$language][$carbon->toDateString()] ??= self::request($carbon, $language);
-        }
-
-        try {
-            return self::$currencies[$language][$carbon->toDateString()] ??= self::request($carbon, $language);
-        } catch (Throwable) {
-            return null; // TODO: Maybe set null in $currencies array too?
-        }
+        return self::$currencies[$language][$carbon->toDateString()] ??= self::request($carbon, $language);
     }
 
     /**
