@@ -21,4 +21,20 @@ class Currency
     ) {
         $this->change = $this->diff <=> 0;
     }
+
+    /**
+     * @return bool If the rate has increased.
+     */
+    public function increased(): bool
+    {
+        return $this->change > 0;
+    }
+
+    /**
+     * @return bool If the rate has decreased.
+     */
+    public function decreased(): bool
+    {
+        return $this->change < 0;
+    }
 }
