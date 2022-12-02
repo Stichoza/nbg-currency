@@ -50,9 +50,9 @@ class Currencies
         try {
             $currency = new Currency(
                 code: $data['code'],
-                rate: $data['rate'] / $data['quantity'],
+                rate: $data['rate'] / ($data['quantity'] ?: 1),
                 name: $data['name'],
-                diff: $data['diff'] / $data['quantity'],
+                diff: $data['diff'] / ($data['quantity'] ?: 1),
                 date: Carbon::parse($data['date'], NbgCurrency::TIMEZONE),
                 validFromDate: Carbon::parse($data['validFromDate'], NbgCurrency::TIMEZONE),
             );
