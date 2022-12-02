@@ -32,24 +32,22 @@ class NbgCurrency
 
     public static function get(string $currency, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
     {
-        if ($date === null) {
-            $carbon = Carbon::today(self::TIMEZONE);
-        } else {
-            $carbon = $date instanceof Carbon ? $date : Carbon::parse($date);
-        }
-
-        return self::date($carbon->toDateString(), $language)->get($currency);
+        return self::date($date, $language)->get($currency);
     }
 
     public static function date(DateTimeInterface|string|null $date, string $language = 'ka'): Currencies
     {
-        $carbon = $date instanceof Carbon ? $date : Carbon::parse($date);
-
-        if (empty(self::$currenciesByDate[$carbon->toDateString()])) {
-            self::$currenciesByDate[$carbon->toDateString()] = self::request($date, $language);
+        if ($date !== null) {
+            try {
+                $carbon = $date instanceof Carbon ? $date : Carbon::parse($date, self::TIMEZONE);
+            } catch (Throwable $e) {
+                throw new InvalidDateException($e->getMessage());
+            }
+        } else {
+            $carbon = Carbon::today(self::TIMEZONE);
         }
 
-        return self::$currenciesByDate[$carbon->toDateString()];
+        return self::$currencies[$language][$carbon->toDateString()] ??= self::request($carbon, $language);
     }
 
     /**
