@@ -62,6 +62,10 @@ class NbgCurrency
     {
         $query = $date ? ('?date=' . $date->toDateString()) : '';
 
+        if ($date->isFuture()) {
+            throw new DateNotFoundException('Date should not be in the future');
+        }
+
         $json = file_get_contents(sprintf(self::URL, $language) . $query);
 
         if ($json === false) {
