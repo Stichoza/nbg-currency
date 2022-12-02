@@ -2,17 +2,17 @@
 
 namespace Stichoza\NbgCurrency;
 
-use BadMethodCallException;
 use Carbon\Carbon;
-use ErrorException;
-use stdClass;
+use DateTimeInterface;
+use Stichoza\NbgCurrency\Data\Currencies;
+use Stichoza\NbgCurrency\Data\Currency;
 use Throwable;
 
 /**
  * NBG currency service wrapper class
  *
  * @author      Levan Velijanashvili <me@stichoza.com>
- * @link        http://stichoza.com/
+ * @link        https://stichoza.com/
  * @license     MIT
  */
 class NbgCurrency
@@ -24,13 +24,35 @@ class NbgCurrency
     /**
      * @var \Stichoza\NbgCurrency\Data\Currencies[]
      */
-    protected static array $data = [];
+    protected static array $currenciesByDate = [];
 
-    /**
-     * @var string JSON URL
-     */
-    protected string $url = 'https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json';
+    public static function get(string $currency, DateTimeInterface|string|null $date = null): Currency
+    {
+        if ($date === null) {
+            $carbon = Carbon::today(self::TIMEZONE);
+        } else {
+            $carbon = $date instanceof Carbon ? $date : Carbon::parse($date);
+        }
 
+        return self::date($carbon->toDateString())->get($currency);
+    }
 
+    public static function date(DateTimeInterface|string|null $date): Currencies
+    {
+        $carbon = $date instanceof Carbon ? $date : Carbon::parse($date);
+
+        if (empty(self::$currenciesByDate[$carbon->toDateString()])) {
+
+        }
+
+        return self::$currenciesByDate[$carbon->toDateString()];
+    }
+
+    protected static function request(?Carbon $date = null): array
+    {
+        $query = $date ? ('?date=' . $date->toDateString()) : '';
+
+        file_get_contents(self::URL . $query);
+    }
 
 }
