@@ -13,11 +13,11 @@ class Currency
 
     public function __construct(
         public readonly string $code,
-        public readonly float $rate,
+        public readonly float  $rate,
         public readonly string $name,
-        public readonly float $diff,
+        public readonly float  $diff,
         public readonly Carbon $date,
-        public readonly Carbon $validFromDate,
+        public readonly Carbon $validFrom,
     ) {
         $this->change = $this->diff <=> 0;
     }

@@ -54,7 +54,7 @@ class Currencies
                 name: $data['name'],
                 diff: $data['diff'] / ($data['quantity'] ?: 1),
                 date: Carbon::parse($data['date'], NbgCurrency::TIMEZONE),
-                validFromDate: Carbon::parse($data['validFromDate'], NbgCurrency::TIMEZONE),
+                validFrom: Carbon::parse($data['validFromDate'], NbgCurrency::TIMEZONE),
             );
         } catch (Throwable) {
             return null;
