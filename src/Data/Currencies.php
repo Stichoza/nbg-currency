@@ -12,7 +12,7 @@ class Currencies
     public readonly Carbon $date;
 
     /**
-     * @var array<string, \Stichoza\NbgCurrency\Data\Currency>
+     * @var array<string, \Stichoza\NbgCurrency\Data\Currency> Array of currencies
      */
     protected array $currencies = [];
 
