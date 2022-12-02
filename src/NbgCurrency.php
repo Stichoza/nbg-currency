@@ -17,6 +17,10 @@ use Throwable;
  */
 class NbgCurrency
 {
+    public const TIMEZONE = 'Asia/Tbilisi';
+
+    protected const URL = 'https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json';
+
     /**
      * @var \Stichoza\NbgCurrency\Data\Currencies[]
      */
