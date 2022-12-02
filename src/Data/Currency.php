@@ -37,4 +37,24 @@ class Currency
     {
         return $this->change < 0;
     }
+
+    /**
+     * Returns string according to rate change direction. Useful for colors, icons, classes, etc.
+     *
+     * Example: `<span class="<?= $currency->changeString('text-red', 'text-gray', 'text-green'); ?>">...</span>`
+     *
+     * @param string $decreased String to be returned if rate was decreased
+     * @param string $unchanged String to be returned if rate wasn't changed
+     * @param string $increased String to be returned if rate was increased
+     *
+     * @return string Returns string according to rate change direction
+     */
+    public function changeString(string $decreased, string $unchanged, string $increased): string
+    {
+        return match ($this->change) {
+            -1 => $decreased,
+            1 => $increased,
+            default => $unchanged,
+        };
+    }
 }
