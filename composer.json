@@ -22,11 +22,8 @@
         "test": "vendor/bin/phpunit"
     },
     "autoload": {
-        "psr-0": {
-            "Stichoza\\NbgCurrency\\": "src/"
-        },
         "psr-4": {
-            "Stichoza\\NbgCurrency\\": "src/Stichoza/NbgCurrency/"
+            "Stichoza\\NbgCurrency\\": "src/"
         }
     },
     "autoload-dev": {
