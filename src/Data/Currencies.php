@@ -4,6 +4,7 @@ namespace Stichoza\NbgCurrency\Data;
 
 use Carbon\Carbon;
 use Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException;
+use Stichoza\NbgCurrency\NbgCurrency;
 use Throwable;
 
 class Currencies
@@ -52,8 +53,8 @@ class Currencies
                 rate: $data['rate'] / $data['quantity'],
                 name: $data['name'],
                 diff: $data['diff'] / $data['quantity'],
-                date: Carbon::parse($data['date']),
-                validFromDate: Carbon::parse($data['validFromDate']),
+                date: Carbon::parse($data['date'], NbgCurrency::TIMEZONE),
+                validFromDate: Carbon::parse($data['validFromDate'], NbgCurrency::TIMEZONE),
             );
         } catch (Throwable) {
             return null;
