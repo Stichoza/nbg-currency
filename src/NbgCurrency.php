@@ -99,7 +99,7 @@ class NbgCurrency
 
         return new Currencies(
             data: $array[0]['currencies'],
-            date: Carbon::parse($array[0]['date'], self::TIMEZONE)
+            date: $date
         );
     }
 
