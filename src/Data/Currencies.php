@@ -2,12 +2,16 @@
 
 namespace Stichoza\NbgCurrency\Data;
 
+use ArrayIterator;
 use Carbon\Carbon;
+use Exception;
+use IteratorAggregate;
 use Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException;
 use Stichoza\NbgCurrency\NbgCurrency;
 use Throwable;
+use Traversable;
 
-class Currencies
+class Currencies implements IteratorAggregate
 {
     public readonly Carbon $date;
 
@@ -78,8 +82,26 @@ class Currencies
         return $this->currencies[$code] = $currency;
     }
 
+    /**
+     * Push multiple items from raw array to $currencies
+     *
+     * @param array $data Raw data array
+     *
+     * @return void
+     */
     protected function pushCurrencies(array $data): void
     {
         array_map($this->pushCurrency(...), $data);
+    }
+
+    /**
+     * Retrieve an external iterator
+     *
+     * @return Traversable<string, \Stichoza\NbgCurrency\Data\Currency>|\Stichoza\NbgCurrency\Data\Currency[]
+     * @throws Exception on failure.
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->currencies);
     }
 }
