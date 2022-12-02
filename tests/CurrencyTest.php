@@ -16,7 +16,7 @@ class CurrencyTest extends TestCase
         $this->assertEqualsIgnoringCase('usd', $currency->code);
         $this->assertGreaterThan(0, $currency->rate);
         $this->assertNotEmpty($currency->name);
-        $this->assertContains($currency->diff, [-1, 0, 1]);
+        $this->assertIsNumeric($currency->diff);
         $this->assertContains($currency->change, [-1, 0, 1]);
     }
 
