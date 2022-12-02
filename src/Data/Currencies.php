@@ -25,11 +25,26 @@ class Currencies
     /**
      * Get currency object
      *
+     * @param string $code Currency code
+     *
+     * @return \Stichoza\NbgCurrency\Data\Currency
      * @throws \Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException
      */
     public function get(string $code): Currency
     {
         return $this->currencies[strtolower($code)] ?? throw new CurrencyNotFoundException;
+    }
+
+    /**
+     * Check if a given currency is contained in currencies array
+     *
+     * @param string $code Currency code
+     *
+     * @return bool If a given currency is contained in currencies array
+     */
+    public function has(string $code): bool
+    {
+        return (bool) ($this->currencies[strtolower($code)] ?? false);
     }
 
     /**
