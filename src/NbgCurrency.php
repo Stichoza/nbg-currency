@@ -30,12 +30,25 @@ class NbgCurrency
      */
     protected static array $currencies = [];
 
+    /**
+     * @throws \Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException
+     * @throws \Stichoza\NbgCurrency\Exceptions\RequestFailedException
+     * @throws \Stichoza\NbgCurrency\Exceptions\DateNotFoundException
+     * @throws \Stichoza\NbgCurrency\Exceptions\InvalidDateException
+     * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
+     */
     public static function get(string $currency, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
     {
         return self::date($date, $language)->get($currency);
     }
 
-    public static function date(DateTimeInterface|string|null $date, string $language = 'ka'): Currencies
+    /**
+     * @throws \Stichoza\NbgCurrency\Exceptions\DateNotFoundException
+     * @throws \Stichoza\NbgCurrency\Exceptions\RequestFailedException
+     * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
+     * @throws \Stichoza\NbgCurrency\Exceptions\InvalidDateException
+     */
+    public static function date(DateTimeInterface|string|null $date = null, string $language = 'ka'): Currencies
     {
         if ($date !== null) {
             try {
