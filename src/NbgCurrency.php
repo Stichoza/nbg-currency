@@ -67,7 +67,6 @@ class NbgCurrency
      * @throws \Stichoza\NbgCurrency\Exceptions\DateNotFoundException
      * @throws \Stichoza\NbgCurrency\Exceptions\RequestFailedException
      * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
-     * @throws \JsonException
      */
     protected static function request(?Carbon $date = null, string $language = 'ka'): Currencies
     {
@@ -83,7 +82,11 @@ class NbgCurrency
             throw new RequestFailedException;
         }
 
-        $array = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+        try {
+            $array = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+        } catch (Throwable) {
+            throw new DateNotFoundException('Error decoding JSON');
+        }
 
         // Seriously, it's `langaugeCode` in the API, lol
         if (($array['errors']['key'] ?? null) === 'langaugeCode') {
