@@ -26,9 +26,9 @@ class NbgCurrency
     protected const URL = 'https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/%s/json';
 
     /**
-     * @var \Stichoza\NbgCurrency\Data\Currencies[]
+     * @var array<string, array<string, Currencies>>
      */
-    protected static array $currenciesByDate = [];
+    protected static array $currencies = [];
 
     public static function get(string $currency, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
     {
