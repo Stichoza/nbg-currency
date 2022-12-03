@@ -13,11 +13,11 @@ composer require stichoza/nbg-currency
 ```
 > Note: PHP 8.1 or later is required. Use following versions of this package for older PHP versions:
 
-| Package version | PHP Version  | Documentation                                                                              |
-|-----------------|--------------|--------------------------------------------------------------------------------------------|
-| `v3.0`          | PHP >= 8.1   | [v3 Docs](#nbg-currency)                                                                   |
-| `v2.0`          | PHP >= 7.1.8 | [v2 Docs](https://github.com/Stichoza/nbg-currency/tree/2.0#nbg-currency)                  |
-| ~~`v1.2`~~      | PHP >= 5.5.9 | ~~[v1.2 Docs](https://github.com/Stichoza/nbg-currency/tree/1.2#nbg-currency)~~ (Outdated) |
+| Package version | PHP Version  | Documentation                                                                                 |
+|-----------------|--------------|-----------------------------------------------------------------------------------------------|
+| `v3.0`          | PHP >= 8.1   | [v3 Docs](#nbg-currency)                                                                      |
+| `v2.0`          | PHP >= 7.1.8 | [v2 Docs](https://github.com/Stichoza/nbg-currency/tree/2.0#nbg-currency)                     |
+| ~~`v1.2`~~      | PHP >= 5.5.9 | ~~[v1.2 Docs](https://github.com/Stichoza/nbg-currency/tree/1.2#nbg-currency)~~ (Not working) |
 
 ## Basic Usage
 
@@ -39,10 +39,10 @@ The `NbgCurrency::rate()` method returns a currency rate in `float`.
 NbgCurrency::rate(string $code, DateTimeInterface|string|null $date = null): float
 ```
 
-| Parameter | Default | Description                        |
-|-----------|---------|------------------------------------|
-| `$code`   |         | Currency code, not case-sensitive) |
-| `$date`   | `null`  | Date of currency rate              |
+| Parameter | Default | Description                       |
+|-----------|---------|-----------------------------------|
+| `$code`   |         | Currency code, not case-sensitive |
+| `$date`   | `null`  | Date of currency rate             |
 
 **Examples:**
 
@@ -69,11 +69,11 @@ This method accepts same parameters as `::rate()` method and one additional para
 NbgCurrency::get(string $code, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
 ```
 
-| Parameter   | Default | Description                       |
-|-------------|---------|-----------------------------------|
-| `$code`     |         | Currency code, not case-sensitive |
-| `$date`     | `null`  | Date of currency rate             |
-| `$language` | `ka`    | Language for currency name        |
+| Parameter   | Default | Description                                              |
+|-------------|---------|----------------------------------------------------------|
+| `$code`     |         | Currency code, not case-sensitive                        |
+| `$date`     | `null`  | Date of currency rate                                    |
+| `$language` | `ka`    | Language for currency name (Currently only `en` or `ka`) |
 
 **Examples:**
 
@@ -85,7 +85,7 @@ $usd->rate; // 2.7112
 $usd->name; // აშშ დოლარი
 $usd->diff; // -0.0065
 $usd->date; // Carbon object of date: 2022-12-01 17:45:12
-$usd->validFrom // Carbon object since when the rate is valid: 2022-12-02 00:00:00
+$usd->validFrom; // Carbon object since when the rate is valid: 2022-12-02 00:00:00
 $usd->change; // Currency rate change. -1 if decreased, 0 if unchanged and 1 if increased.
 
 // Using methods available on Carbon objects
@@ -98,13 +98,13 @@ $usd->increased(); // Returns true if rate has increased, false otherwise.
 $usd->decreased(); // Returns true if rate has decreased, false otherwise.
 $usd->unchanged(); // Returns true if rate hasn't changed, false otherwise.
 
-// Returns first parameter if rate was increased, second string if there was no change
-// and third string if the rate went up. Useful for CSS classes, font icons, etc.
+// The changeString() method returns first parameter if rate was increased, second string if there was
+// no change and third string if the rate went up. Useful for CSS classes, font icons, etc.
 $class = $usd->changeString('text-red', 'text-gray', 'text-green');
 $icon  = $usd->changeString('fa-arrow-down', 'fa-circle', 'fa-arrow-down');
 ```
 
-**Note:** All properties of `Currency` class are declared as `readonly`
+**Note:** All properties of `Currency` class are declared as `readonly`. Updating them will result in Fatal Error.
 
 ## Advanced Usage
 
@@ -116,10 +116,10 @@ The `NbgCurrency::date()` method will return a `Currencies` object. This is a co
 NbgCurrency::date(DateTimeInterface|string|null $date = null, string $language = 'ka'): Currencies
 ```
 
-| Parameter   | Default | Description                      |
-|-------------|---------|----------------------------------|
-| `$date`     | `null`  | Date of currency rates           |
-| `$language` | `ka`    | Language for names of currencies |
+| Parameter   | Default | Description                                                    |
+|-------------|---------|----------------------------------------------------------------|
+| `$date`     | `null`  | Date of currency rates                                         |
+| `$language` | `ka`    | Language for names of currencies (Currently only `en` or `ka`) |
 
 **Examples:**
 
