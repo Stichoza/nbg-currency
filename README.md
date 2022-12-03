@@ -13,13 +13,13 @@ composer require stichoza/nbg-currency
 ```
 > Note: PHP 8.1 or later is required. Use following versions of this package for older PHP versions:
 
-| Package version | PHP Version  | Documentation                                                                                 |
-|-----------------|--------------|-----------------------------------------------------------------------------------------------|
-| `v3.0`          | PHP >= 8.1   | [v3 Docs](#nbg-currency)                                                                      |
-| `v2.0`          | PHP >= 7.1.8 | [v2 Docs](https://github.com/Stichoza/nbg-currency/tree/2.0#nbg-currency)                     |
-| ~~`v1.2`~~      | PHP >= 5.5.9 | ~~[v1.2 Docs](https://github.com/Stichoza/nbg-currency/tree/1.2#nbg-currency)~~ (not working) |
+| Package version | PHP Version  | Documentation                                                                              |
+|-----------------|--------------|--------------------------------------------------------------------------------------------|
+| `v3.0`          | PHP >= 8.1   | [v3 Docs](#nbg-currency)                                                                   |
+| `v2.0`          | PHP >= 7.1.8 | [v2 Docs](https://github.com/Stichoza/nbg-currency/tree/2.0#nbg-currency)                  |
+| ~~`v1.2`~~      | PHP >= 5.5.9 | ~~[v1.2 Docs](https://github.com/Stichoza/nbg-currency/tree/1.2#nbg-currency)~~ (Outdated) |
 
-## Usage
+## Basic Usage
 
 The class is namespaced as `Stichoza\NbgCurrency\NbgCurrency`:
 
@@ -27,7 +27,110 @@ The class is namespaced as `Stichoza\NbgCurrency\NbgCurrency`:
 use Stichoza\NbgCurrency\NbgCurrency;
 ```
 
-This package is very easy to use and has a few methods.
+This package has three main static methods from which you can access currency rates.
+
+### Get specific currency rate
+
+The `::rate()` method returns a currency rate in `float`.
+
+**Note:** The rate is always for a **single unit**. The original NBG JSON API returns rate for different amounts per currency. For example Japanese Yen (JPY) rate will be 1.9865 and quantity will be set to 100 (100 JPY is 1.9865 GEL). It is quite confusing during calculations so **this package always returns price per single unit**. So in this case JPY will be 0.019865 (1 JPY is 0.019865 GEL).
+
+```php
+NbgCurrency::rate(string $code, DateTimeInterface|string|null $date = null): float
+```
+
+| Parameter | Default | Description                        |
+|-----------|---------|------------------------------------|
+| `$code`   |         | Currency code, not case-sensitive) |
+| `$date`   | `null`  | Date of currency rate              |
+
+**Examples:**
+
+```php
+NbgCurrency::rate('usd'); // Returns current rate of USD. Example: 2.7177
+NbgCurrency::rate('usd', '2022-12-02'); // USD rate on 2022-12-02
+NbgCurrency::rate('eur', 'yesterday'); // EUR rate from yesterday. Strings are parsed via Carbon::parse()
+NbgCurrency::rate('eur', Carbon::yesterday()); // EUR rate from yesterday
+NbgCurrency::rate('gbp', Carbon::today()->subDays(5)); // GBP rate 5 days ago
+NbgCurrency::rate('gbp', new DateTime()); // GBP rate today
+```
+
+### Get specific currency object
+
+The `::get()` method returns a `Currency` object containing date for a currency for specified date.
+
+This method accepts same parameters as `::rate()` method and one additional parameter for language (Used for currency name).
+
+```php
+NbgCurrency::get(string $code, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
+```
+
+| Parameter   | Default | Description                        |
+|-------------|---------|------------------------------------|
+| `$code`     |         | Currency code, not case-sensitive) |
+| `$date`     | `null`  | Date of currency rate              |
+| `$language` | `ka`    | Language for currency name         |
+
+Examples:
+
+```php
+$usd = NbgCurrency::get('usd'); // Currency object (Stichoza\NbgCurrency\Data\Currency)
+
+$usd->code; // Currency code: USD
+$usd->rate; // Currency rate: 2.7112
+$usd->name; // Currency name: აშშ დოლარი
+$usd->diff; // Daily difference: -0.0065
+$usd->date; // Carbon object of date: 2022-12-01 17:45:12
+$usd->validFrom // Carbon object since when the rate is valid: 2022-12-02 00:00:00
+$usd->change; // Currency rate change. -1 if decreased, 0 if unchanged and 1 if increased.
+
+$usd->increased(); // Returns true if rate has increased, false otherwise.
+$usd->decreased(); // Returns true if rate has decreased, false otherwise.
+
+// Returns first parameter if rate was increased, second string if there was no change and third string if the rate went up.
+$cssClass = $usd->changeString('text-red', 'text-gray', 'text-green');
+$icon = $usd->changeString('fa-arrow-down', 'fa-circle', 'fa-arrow-down');
+```
+
+## Advanced Usage
+
+
+
+
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+.
+.
+.
+.
+.
+.
+
+
 
 ### Methods
 
