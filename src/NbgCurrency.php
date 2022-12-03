@@ -131,10 +131,7 @@ class NbgCurrency
             throw new DateNotFoundException('No rates found for ' . $date->toDateString());
         }
 
-        return new Currencies(
-            data: $array[0]['currencies'],
-            date: $date
-        );
+        return new Currencies($array[0]['currencies'], $date);
     }
 
 }
