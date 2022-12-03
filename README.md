@@ -104,150 +104,103 @@ $class = $usd->changeString('text-red', 'text-gray', 'text-green');
 $icon  = $usd->changeString('fa-arrow-down', 'fa-circle', 'fa-arrow-down');
 ```
 
-> **Note:** When you 
+**Note:** All properties of `Currency` class are declared as `readonly`
 
 ## Advanced Usage
 
+### Get All Currencies
 
-
-
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-.
-.
-.
-.
-.
-.
-
-
-
-### Methods
-
-##### `rate($currency)`
-
-Get the currency rate.
+The `NbgCurrency::date()` method will return a `Currencies` object. This is a collection-like object that contains a list of all `Currency` objects available for specified date.
 
 ```php
-NbgCurrency::rate('usd'); // 2.3966
+NbgCurrency::date(DateTimeInterface|string|null $date = null, string $language = 'ka'): Currencies
 ```
 
-##### `diff($currency)`
+| Parameter   | Default | Description                      |
+|-------------|---------|----------------------------------|
+| `$date`     | `null`  | Date of currency rates           |
+| `$language` | `ka`    | Language for names of currencies |
 
-Get the rate difference.
+**Examples:**
 
 ```php
-NbgCurrency::diff('usd'); // 0.0017
+$currencies = NbgCurrency::date('3 days ago');
+$currencies = NbgCurrency::date(Carbon::now()->startOfMonth(), 'en');
 ```
 
-##### `change($currency)`
-
-Currency rate change. `-1` if decreased, `0` if unchanged and `1` if increased.
+`Currencies` class has date attribute and several methods that you can use.
 
 ```php
-NbgCurrency::change('usd'); // 1
+$currencies->date; // Carbon object of date
+
+$currencies->get('usd'); // Returns Currency object for USD
+$currencies->has('eur'); // True if EUR currency is contained in $currencies collection
+$currencies->count(); // Count of Currency objects in collection
+
+$currencies->get('usd')->rate; // Currency rate of USD
+$currencies->get('eur')->date->diffForHumans(); // 
 ```
 
-##### `description($currency)`
+Note that `->get()` method of `Currencies` object has only one parameter `string $code`, while the static method with the same name (`NbgCurrency::get()`) has two additional parameters described in basic usage examples above.
 
-Get the description of currency rate.
+The `Currencies` object also implements `Countable` and `IteratorAggregate` interfaces, so you can use the object in `foreach` loops and `count()` function.
+
+**Examples:**
 
 ```php
-NbgCurrency::description('eek'); // 10 ესტონური კრონი
+$currencies = NbgCurrency::date('2022-12-02', 'en'); // Currencies object (\Stichoza\NbgCurrency\Data\Currencies) 
+
+echo 'Total ' . count($currencies) . ' currencies for ' . $currencies->date->toFormattedDateString();
+// Total 43 currencies for Dec 2, 2022
+
+foreach ($currencies as $code => $currency) {
+    echo $currency->code . ' costs ' . $currency->rate;
+}
+// AED costs 7.3662
+// AMD costs 6.8453
+// ...
 ```
 
-##### `date()`
+## Error Handling
 
-Get the date of currency rates. Returns [Carbon](http://carbon.nesbot.com) object representing the date. [All carbon methods](http://carbon.nesbot.com/docs/#api-difference) are available on this object.
+There are 5 exceptions in `\Stichoza\NbgCurrency\Exceptions` namespace that could be thrown from methods:
 
-```php
-NbgCurrency::date();                  // 2016-01-01 00:00:00
-NbgCurrency::date()->format('j F Y'); // 1 January 2016
-NbgCurrency::date()->diffForHumans(); // 2 days ago
-NbgCurrency::date()->isPast();        // true
-// etc.
-```
+ - `CurrencyNotFoundException` - If currency is not available.
+ - `DateNotFoundException` - If specified date is not available.
+ - `LanguageNotFoundException` - If specified language is not available.
+ - `InvalidDateException` - If the specified date is in invalid format or cannot be parsed.
+ - `RequestFailedException` - If there was an error during API request.
 
-##### `get($currency)`
-
-This method returns an object containing all data described above.
+All exceptions above extend `Exception` class, so you can handle all exceptions by catching `Exception` or `Throwable`.
 
 ```php
-$currency = NbgCurrency::get('usd');
-
-$currency->date->format('j F Y'); // 1 January 2016
-$currency->rate; // 2.3966
-$currency->diff; // 0.0017
-// etc.
-```
-
-##### `isSupported($currency)`
-
-Check if the currency is supported.
-
-```php
-NbgCurrency::isSupported('usd'); // true
-NbgCurrency::isSupported('lol'); // false
-```
-
-### Fluent Methods
-
-Some methods (`get`, `rate`, `description`, `change`, `diff`) are available to call fluently like so:
-
-```php
-NbgCurrency::rateUsd(); // same as NbgCurrency::rate('usd');
-NbgCurrency::ratePln(); // same as NbgCurrency::rate('pln');
-NbgCurrency::diffEur(); // same as NbgCurrency::diff('eur');
-NbgCurrency::getUah();  // same as NbgCurrency::get('uah');
-// etc.
-```
-
-### General Recommendations
-
-Each method call maps to a SOAP web service method. So it's better to remember a rate in a variable or even store a result in a cache if possible.
-
-##### DO:
-```php
-$dollars = [199, 340.5, 230.25, 30, 78.99];
-$usdRate = NbgCurrency::rateUsd();
-
-foreach ($dollars as $d) {
-	echo $d * $usdRate;
+try {
+    $usdRate = NbgCurrency::date('10 days ago', 'en')->get('usd')->rate;
+} catch (Exception) {
+    // Whoops...
 }
 ```
 
-##### DO NOT:
+## Additional Info
+
+### Number of HTTP Requests
+When you access any currency, all currencies for that day in selected language will be fetched (API returns all currencies in a single request) and stored in NbgCurrency class attribute. When you request any other currency, no additional HTTP requests will be made for same date and language.
 
 ```php
-$dollars = [199, 340.5, 230.25, 30, 78.99];
+// Next 3 method calls will result in 1 HTTP request in total.
+NbgCurrency::rate('usd');
+NbgCurrency::rate('eur');
+NbgCurrency::rate('gbp');
 
-foreach ($dollars as $d) {
-	echo $d * NbgCurrency::rateUsd();
-}
+// Next 3 method calls will result in 3 HTTP requests in total.
+NbgGurrency::rate('usd', '2022-10-10');
+NbgGurrency::rate('eur', '2022-11-11', 'en');
+NbgGurrency::rate('gbp', '2022-11-11');
+
+// Next 3 method calls will result in 2 HTTP request in total.
+NbgGurrency::rate('usd', '2022-11-11');
+NbgGurrency::rate('eur', '2022-11-11');
+NbgGurrency::rate('gbp', '2022-11-11', 'en');
 ```
 
 ### Keywords
