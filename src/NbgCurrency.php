@@ -86,7 +86,7 @@ class NbgCurrency
         }
 
         // Pass null instead of $carbon if date is today, but set array key using $carbon
-        return self::$currencies[$language][$carbon->toDateString()] ??= self::request($carbon, $language, !$date);
+        return self::$currencies[$carbon->toDateString()][$language] ??= self::request($carbon, $language, !$date);
     }
 
     /**
@@ -134,4 +134,8 @@ class NbgCurrency
         return new Currencies($array[0]['currencies'], $date);
     }
 
+    public static function clear(): void
+    {
+        // TODO
+    }
 }
