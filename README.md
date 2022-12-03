@@ -39,10 +39,10 @@ The `NbgCurrency::rate()` method returns a currency rate in `float`.
 NbgCurrency::rate(string $code, DateTimeInterface|string|null $date = null): float
 ```
 
-| Parameter | Default | Description                       |
-|-----------|---------|-----------------------------------|
-| `$code`   |         | Currency code, not case-sensitive |
-| `$date`   | `null`  | Date of currency rate             |
+| Parameter | Default | Description                                                                                                                               |
+|-----------|---------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| `$code`   |         | Currency code, not case-sensitive                                                                                                         |
+| `$date`   | `null`  | Date of currency rate: [Carbon](https://carbon.nesbot.com), [DateTime](https://www.php.net/manual/en/class.datetime.php), string or null. |
 
 **Examples:**
 
@@ -59,7 +59,7 @@ if (NbgCurrency::rate('usd') > 3) {
 }
 ```
 
-When passing dates as `Carbon` or `DateTime` objects, it's recommended to have its timezone set to `Asia/Tbilisi` to avoid unexpected behavior. For convenience, timestamp string is available as `NbgCurrency::TIMEZONE` class constant.
+When passing dates as [`Carbon`](https://carbon.nesbot.com) or `DateTime` objects, it's recommended to have its timezone set to `Asia/Tbilisi` to avoid unexpected behavior. For convenience, timestamp string is available as `NbgCurrency::TIMEZONE` class constant.
 
 ### Get Currency Object
 
