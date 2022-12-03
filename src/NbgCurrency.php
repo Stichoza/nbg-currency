@@ -35,6 +35,23 @@ class NbgCurrency
      * @param \DateTimeInterface|string|null $date Date of currency rates
      * @param string $language Language of currency names
      *
+     * @return float Currency rate
+     * @throws \Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException
+     * @throws \Stichoza\NbgCurrency\Exceptions\DateNotFoundException
+     * @throws \Stichoza\NbgCurrency\Exceptions\InvalidDateException
+     * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
+     * @throws \Stichoza\NbgCurrency\Exceptions\RequestFailedException
+     */
+    public static function rate(string $currency, DateTimeInterface|string|null $date = null, string $language = 'ka'): float
+    {
+        return self::get($currency, $date, $language)->rate;
+    }
+
+    /**
+     * @param string $currency Currency code (USD, EUR, etc.); Case-insensitive
+     * @param \DateTimeInterface|string|null $date Date of currency rates
+     * @param string $language Language of currency names
+     *
      * @return \Stichoza\NbgCurrency\Data\Currency Currency object
      * @throws \Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException
      * @throws \Stichoza\NbgCurrency\Exceptions\DateNotFoundException
