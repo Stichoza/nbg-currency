@@ -39,6 +39,14 @@ class Currency
     }
 
     /**
+     * @return bool If the rate hasn't changed.
+     */
+    public function unchanged(): bool
+    {
+        return $this->change === 0;
+    }
+
+    /**
      * Returns string according to rate change direction. Useful for colors, icons, classes, etc.
      *
      * Example: `<span class="<?= $currency->changeString('text-red', 'text-gray', 'text-green'); ?>">...</span>`
