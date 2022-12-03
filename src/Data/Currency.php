@@ -51,10 +51,6 @@ class Currency
      */
     public function changeString(string $decreased, string $unchanged, string $increased): string
     {
-        return match ($this->change) {
-            -1 => $decreased,
-            1 => $increased,
-            default => $unchanged,
-        };
+        return [$decreased, $unchanged, $increased][$this->change + 1];
     }
 }
