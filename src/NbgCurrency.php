@@ -31,9 +31,8 @@ class NbgCurrency
     protected static array $currencies = [];
 
     /**
-     * @param string $currency Currency code (USD, EUR, etc.); Case-insensitive
+     * @param string $code Currency code (USD, EUR, etc.); Case-insensitive
      * @param \DateTimeInterface|string|null $date Date of currency rates
-     * @param string $language Language of currency names
      *
      * @return float Currency rate
      * @throws \Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException
@@ -42,13 +41,13 @@ class NbgCurrency
      * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
      * @throws \Stichoza\NbgCurrency\Exceptions\RequestFailedException
      */
-    public static function rate(string $currency, DateTimeInterface|string|null $date = null, string $language = 'ka'): float
+    public static function rate(string $code, DateTimeInterface|string|null $date = null): float
     {
-        return self::get($currency, $date, $language)->rate;
+        return self::get($code, $date)->rate;
     }
 
     /**
-     * @param string $currency Currency code (USD, EUR, etc.); Case-insensitive
+     * @param string $code Currency code (USD, EUR, etc.); Case-insensitive
      * @param \DateTimeInterface|string|null $date Date of currency rates
      * @param string $language Language of currency names
      *
@@ -59,9 +58,9 @@ class NbgCurrency
      * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
      * @throws \Stichoza\NbgCurrency\Exceptions\RequestFailedException
      */
-    public static function get(string $currency, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
+    public static function get(string $code, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
     {
-        return self::date($date, $language)?->get($currency);
+        return self::date($date, $language)?->get($code);
     }
 
     /**
