@@ -59,6 +59,8 @@ if (NbgCurrency::rate('usd') > 3) {
 }
 ```
 
+When passing dates as `Carbon` or `DateTime` objects, it's recommended to have its timezone set to `Asia/Tbilisi` to avoid unexpected behavior. For convenience, timestamp string is available as `NbgCurrency::TIMEZONE` class constant.
+
 ### Get Currency Object
 
 The `NbgCurrency::get()` method returns a `Currency` object containing data of a currency for specified date.
