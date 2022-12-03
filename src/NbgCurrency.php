@@ -69,11 +69,12 @@ class NbgCurrency
             $carbon = Carbon::today(self::TIMEZONE);
         }
 
-        return self::$currencies[$language][$carbon->toDateString()] ??= self::request($carbon, $language);
+        // Pass null instead of $carbon if date is today, but set array key using $carbon
+        return self::$currencies[$language][$carbon->toDateString()] ??= self::request($carbon, $language, !$date);
     }
 
     /**
-     * @param \Carbon\Carbon|null $date Date of currency rates
+     * @param \Carbon\Carbon $date Date of currency rates
      * @param string $language Language of currency names
      *
      * @return \Stichoza\NbgCurrency\Data\Currencies Collection of Currency objects
@@ -81,9 +82,9 @@ class NbgCurrency
      * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
      * @throws \Stichoza\NbgCurrency\Exceptions\RequestFailedException
      */
-    protected static function request(?Carbon $date = null, string $language = 'ka'): Currencies
+    protected static function request(Carbon $date, string $language = 'ka', bool $passNullAsDate = false): Currencies
     {
-        $query = $date ? ('?date=' . $date->toDateString()) : '';
+        $query = $passNullAsDate ? '' : '?date=' . $date->toDateString();
 
         if ($date->isFuture()) {
             throw new DateNotFoundException('Date should not be in the future');
