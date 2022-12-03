@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException;
 use Stichoza\NbgCurrency\Exceptions\DateNotFoundException;
 use Stichoza\NbgCurrency\Exceptions\InvalidDateException;
-use Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException;
+use Stichoza\NbgCurrency\Exceptions\LanguageNotFoundException;
 use Stichoza\NbgCurrency\Exceptions\RequestFailedException;
 use Stichoza\NbgCurrency\NbgCurrency;
 

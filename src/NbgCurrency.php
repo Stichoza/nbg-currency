@@ -8,7 +8,7 @@ use Stichoza\NbgCurrency\Data\Currencies;
 use Stichoza\NbgCurrency\Data\Currency;
 use Stichoza\NbgCurrency\Exceptions\DateNotFoundException;
 use Stichoza\NbgCurrency\Exceptions\InvalidDateException;
-use Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException;
+use Stichoza\NbgCurrency\Exceptions\LanguageNotFoundException;
 use Stichoza\NbgCurrency\Exceptions\RequestFailedException;
 use Throwable;
 
@@ -38,7 +38,7 @@ class NbgCurrency
      * @throws \Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException
      * @throws \Stichoza\NbgCurrency\Exceptions\DateNotFoundException
      * @throws \Stichoza\NbgCurrency\Exceptions\InvalidDateException
-     * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
+     * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotFoundException
      * @throws \Stichoza\NbgCurrency\Exceptions\RequestFailedException
      */
     public static function rate(string $code, DateTimeInterface|string|null $date = null): float
@@ -55,7 +55,7 @@ class NbgCurrency
      * @throws \Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException
      * @throws \Stichoza\NbgCurrency\Exceptions\DateNotFoundException
      * @throws \Stichoza\NbgCurrency\Exceptions\InvalidDateException
-     * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
+     * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotFoundException
      * @throws \Stichoza\NbgCurrency\Exceptions\RequestFailedException
      */
     public static function get(string $code, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
@@ -70,7 +70,7 @@ class NbgCurrency
      * @return \Stichoza\NbgCurrency\Data\Currencies Collection of Currency objects
      * @throws \Stichoza\NbgCurrency\Exceptions\DateNotFoundException
      * @throws \Stichoza\NbgCurrency\Exceptions\InvalidDateException
-     * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
+     * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotFoundException
      * @throws \Stichoza\NbgCurrency\Exceptions\RequestFailedException
      */
     public static function date(DateTimeInterface|string|null $date = null, string $language = 'ka'): Currencies
@@ -95,7 +95,7 @@ class NbgCurrency
      *
      * @return \Stichoza\NbgCurrency\Data\Currencies Collection of Currency objects
      * @throws \Stichoza\NbgCurrency\Exceptions\DateNotFoundException
-     * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotAllowedException
+     * @throws \Stichoza\NbgCurrency\Exceptions\LanguageNotFoundException
      * @throws \Stichoza\NbgCurrency\Exceptions\RequestFailedException
      */
     protected static function request(Carbon $date, string $language = 'ka', bool $passNullAsDate = false): Currencies
@@ -124,7 +124,7 @@ class NbgCurrency
 
         // Seriously, it's `langaugeCode` in the API, lol
         if (($array['errors']['key'] ?? null) === 'langaugeCode') {
-            throw new LanguageNotAllowedException('Language code "' . $language . '" is not allowed');
+            throw new LanguageNotFoundException('Language code "' . $language . '" is not allowed');
         }
 
         if (!$array || empty($array[0]['date']) || empty($array[0]['currencies'])) {
