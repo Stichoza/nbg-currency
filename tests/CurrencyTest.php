@@ -10,6 +10,14 @@ use Stichoza\NbgCurrency\NbgCurrency;
 
 class CurrencyTest extends TestCase
 {
+    public function testStaticRate(): void
+    {
+        $rate = NbgCurrency::rate('usd');
+
+        $this->assertGreaterThan(0, $rate);
+        $this->assertIsNumeric($rate);
+    }
+
     public function testStaticGet(): void
     {
         $currency = NbgCurrency::get('usd');
