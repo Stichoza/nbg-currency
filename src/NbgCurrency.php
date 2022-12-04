@@ -26,6 +26,11 @@ class NbgCurrency
     protected const URL = 'https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/%s/json';
 
     /**
+     * @var bool Whether the results should be cached or not.
+     */
+    protected static bool $caching = true;
+
+    /**
      * @var array<string, array<string, Currencies>>
      */
     protected static array $currencies = [];
@@ -86,7 +91,12 @@ class NbgCurrency
         }
 
         // Pass null instead of $carbon if date is today, but set array key using $carbon
-        return self::$currencies[$carbon->toDateString()][$language] ??= self::request($carbon, $language, !$date);
+
+        if (self::$caching) {
+            return self::$currencies[$carbon->toDateString()][$language] ??= self::request($carbon, $language, !$date);
+        }
+
+        return self::request($carbon, $language, !$date);
     }
 
     /**
@@ -134,8 +144,24 @@ class NbgCurrency
         return new Currencies($array[0]['currencies'], $date);
     }
 
-    public static function clear(): void
+    /**
+     * Enable caching of results
+     *
+     * @return void
+     */
+    public static function enableCaching(): void
     {
-        // TODO
+        self::$caching = true;
+    }
+
+    /**
+     * Disable caching of results
+     *
+     * @return void
+     */
+    public static function disableCaching(): void
+    {
+        self::$currencies = [];
+        self::$caching = false;
     }
 }
