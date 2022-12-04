@@ -58,6 +58,7 @@ class CachingTest extends TestCase
 
     public function testRequestCount(): void
     {
+        CustomNbgCurrency::$requests = 0;
         CustomNbgCurrency::enableCaching();
 
         $this->assertEquals(0, CustomNbgCurrency::$requests);
@@ -68,13 +69,14 @@ class CachingTest extends TestCase
 
         $this->assertEquals(1, CustomNbgCurrency::$requests);
 
+        CustomNbgCurrency::$requests = 0;
         CustomNbgCurrency::disableCaching();
 
         CustomNbgCurrency::rate('usd');
         CustomNbgCurrency::rate('eur');
         CustomNbgCurrency::rate('gbp');
 
-        $this->assertEquals(4, CustomNbgCurrency::$requests);
+        $this->assertEquals(3, CustomNbgCurrency::$requests);
     }
 }
 
