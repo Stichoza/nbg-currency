@@ -140,7 +140,7 @@ $currencies->has('eur'); // True if EUR currency is contained in $currencies col
 $currencies->count(); // Count of Currency objects in collection
 
 $currencies->get('usd')->rate; // Currency rate of USD
-$currencies->get('eur')->date->diffForHumans(); // 
+$currencies->get('eur')->date->diffForHumans(); // 10 days ago
 ```
 
 Note that `->get()` method of `Currencies` object has only one parameter `string $code`, while the static method with the same name (`NbgCurrency::get()`) has two additional parameters described in basic usage examples above.
@@ -150,7 +150,7 @@ The `Currencies` object also implements `Countable` and `IteratorAggregate` inte
 **Examples:**
 
 ```php
-$currencies = NbgCurrency::date('2022-12-02', 'en'); // Currencies object (\Stichoza\NbgCurrency\Data\Currencies) 
+$currencies = NbgCurrency::date('2022-12-02', 'en'); // Currencies object (Stichoza\NbgCurrency\Data\Currencies) 
 
 echo 'Total ' . count($currencies) . ' currencies for ' . $currencies->date->toFormattedDateString();
 // Total 43 currencies for Dec 2, 2022
@@ -165,7 +165,7 @@ foreach ($currencies as $code => $currency) {
 
 ## Error Handling
 
-There are 5 exceptions in `\Stichoza\NbgCurrency\Exceptions` namespace that could be thrown from methods:
+There are 5 exceptions in `Stichoza\NbgCurrency\Exceptions` namespace that could be thrown from methods:
 
  - `CurrencyNotFoundException` - If currency is not available.
  - `DateNotFoundException` - If specified date is not available.
