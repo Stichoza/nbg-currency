@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionProperty;
+use Stichoza\NbgCurrency\Data\Currencies;
 use Stichoza\NbgCurrency\NbgCurrency;
 
 class CachingTest extends TestCase
@@ -53,5 +54,40 @@ class CachingTest extends TestCase
         $this->assertNotNull($usd->rate);
 
         NbgCurrency::enableCaching();
+    }
+
+    public function testRequestCount(): void
+    {
+        CustomNbgCurrency::enableCaching();
+
+        $this->assertEquals(0, CustomNbgCurrency::$requests);
+
+        CustomNbgCurrency::rate('usd');
+        CustomNbgCurrency::rate('eur');
+        CustomNbgCurrency::rate('gbp');
+
+        $this->assertEquals(1, CustomNbgCurrency::$requests);
+
+        CustomNbgCurrency::disableCaching();
+
+        CustomNbgCurrency::rate('usd');
+        CustomNbgCurrency::rate('eur');
+        CustomNbgCurrency::rate('gbp');
+
+        $this->assertEquals(4, CustomNbgCurrency::$requests);
+    }
+}
+
+/**
+ * Test class to count HTTP request counts.
+ */
+class CustomNbgCurrency extends NbgCurrency
+{
+    public static int $requests = 0;
+
+    protected static function request(Carbon $date, string $language = 'ka', bool $passNullAsDate = false): Currencies
+    {
+        static::$requests++;
+        return parent::request($date, $language, $passNullAsDate);
     }
 }
