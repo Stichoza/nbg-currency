@@ -19,6 +19,22 @@ composer require stichoza/nbg-currency
 | `v2.0`          | PHP >= 7.1.8 | [v2 Docs](https://github.com/Stichoza/nbg-currency/tree/2.0#nbg-currency)                     |
 | ~~`v1.2`~~      | PHP >= 5.5.9 | ~~[v1.2 Docs](https://github.com/Stichoza/nbg-currency/tree/1.2#nbg-currency)~~ (Not working) |
 
+## Quick Examples
+
+```php
+NbgCurrency::rate('usd'); // 2.7177
+NbgCurrency::rate('usd', '2022-12-02'); // 2.7112
+
+NbgCurrency::get('usd')->rate; // 2.7177
+NbgCurrency::get('usd', '2022-12-02')->rate; // 2.7112
+NbgCurrency::get('usd', '2022-12-02', 'en')->name; // US Dollar
+
+NbgCurrency::date(Carbon::yesterday())->get('usd')->diff; // 0.0012
+NbgCurrency::date('2022-12-02', 'en')->get('usd')->increased(); // true
+```
+
+Continue reading for more details about additional functionality.
+
 ## Basic Usage
 
 The class is namespaced as `Stichoza\NbgCurrency\NbgCurrency`:
