@@ -205,6 +205,39 @@ NbgGurrency::rate('eur', '2022-11-11');
 NbgGurrency::rate('gbp', '2022-11-11', 'en');
 ```
 
+### Memory Usage & Caching
+
+By default, all retrieved currencies are stored in a static property of `NbgCurrency` class. If you're planning to get currencies for many different dates, it might use excessive memory. In this case it's recommended to turn off the caching feature.
+
+```php
+NbgCurrency::disableCaching(); // Disable caching, also all data stored in the property.
+NbgCurrency::enableCaching(); // Enables caching in class property.
+```
+
+On the other hand, disabling caching may increase number of HTTP requests being sent. Example:
+
+```php
+$codes = ['USD', 'EUR', 'GBP', 'UAH', 'JPY'];
+
+foreach ($codes as $code) {
+    echo NbgCurrency::rate($code);
+}
+```
+
+The above code would make a single HTTP request to the API when caching is enabled. But if you disable caching, it will send 5 separate HTTP requests. To load multiple currencies of same date using a single HTTP request with caching disabled, you can use `::date()` method to get `Currencies` object and then access all contained objects after.
+
+```php
+$codes = ['USD', 'EUR', 'GBP', 'UAH', 'JPY'];
+
+$currencies = NbgCurrency::date();
+
+foreach ($codes as $code) {
+    echo $currencies->get($code)->rate;
+}
+```
+
+In this case there will be a single HTTP request made even with caching disabled.
+
 ### Keywords
 
 > ლარის კურსი, ეროვნული ბანკის გაცვლითი კურსი, ვალუტა, ლარის ვალუტის კურსი, laris kursi, laris valuta, lari currency, national bank of georgia, nbg
