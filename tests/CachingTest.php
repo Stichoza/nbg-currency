@@ -32,6 +32,8 @@ class CachingTest extends TestCase
         $eur2 = NbgCurrency::get('eur', Carbon::yesterday()->subDay());
 
         $this->assertCount(3, $this->property->getValue());
+
+        $this->assertNotNull($usd->rate);
     }
 
     public function testCacheDisabled(): void
@@ -47,6 +49,8 @@ class CachingTest extends TestCase
         $eur2 = NbgCurrency::get('eur', Carbon::yesterday()->subDay());
 
         $this->assertCount(0, $this->property->getValue());
+
+        $this->assertNotNull($usd->rate);
 
         NbgCurrency::enableCaching();
     }
