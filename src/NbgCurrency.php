@@ -48,7 +48,7 @@ class NbgCurrency
      */
     public static function rate(string $code, DateTimeInterface|string|null $date = null): float
     {
-        return self::get($code, $date)->rate;
+        return static::get($code, $date)->rate;
     }
 
     /**
@@ -65,7 +65,7 @@ class NbgCurrency
      */
     public static function get(string $code, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
     {
-        return self::date($date, $language)?->get($code);
+        return static::date($date, $language)?->get($code);
     }
 
     /**
@@ -82,21 +82,21 @@ class NbgCurrency
     {
         if ($date !== null) {
             try {
-                $carbon = $date instanceof Carbon ? $date : Carbon::parse($date, self::TIMEZONE);
+                $carbon = $date instanceof Carbon ? $date : Carbon::parse($date, static::TIMEZONE);
             } catch (Throwable $e) {
                 throw new InvalidDateException($e->getMessage());
             }
         } else {
-            $carbon = Carbon::today(self::TIMEZONE);
+            $carbon = Carbon::today(static::TIMEZONE);
         }
 
         // Pass null instead of $carbon if date is today, but set array key using $carbon
 
-        if (self::$caching) {
-            return self::$currencies[$carbon->toDateString()][$language] ??= self::request($carbon, $language, !$date);
+        if (static::$caching) {
+            return static::$currencies[$carbon->toDateString()][$language] ??= static::request($carbon, $language, !$date);
         }
 
-        return self::request($carbon, $language, !$date);
+        return static::request($carbon, $language, !$date);
     }
 
     /**
@@ -117,7 +117,7 @@ class NbgCurrency
         }
 
         try {
-            $json = file_get_contents(sprintf(self::URL, $language) . $query);
+            $json = file_get_contents(sprintf(static::URL, $language) . $query);
         } catch (Throwable $e) {
             throw new RequestFailedException($e->getMessage());
         }
@@ -151,7 +151,7 @@ class NbgCurrency
      */
     public static function enableCaching(): void
     {
-        self::$caching = true;
+        static::$caching = true;
     }
 
     /**
@@ -161,7 +161,7 @@ class NbgCurrency
      */
     public static function disableCaching(): void
     {
-        self::$currencies = [];
-        self::$caching = false;
+        static::$currencies = [];
+        static::$caching = false;
     }
 }
