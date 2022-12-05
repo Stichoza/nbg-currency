@@ -226,7 +226,7 @@ NbgGurrency::rate('gbp', '2022-11-11', 'en');
 By default, all retrieved currencies are stored in a static property of `NbgCurrency` class. If you're planning to get currencies for many different dates, it might use excessive memory. In this case it's recommended to turn off the caching feature.
 
 ```php
-NbgCurrency::disableCaching(); // Disable caching, also all data stored in the property.
+NbgCurrency::disableCaching(); // Disable caching, also removes data stored in the property.
 NbgCurrency::enableCaching(); // Enables caching in class property.
 ```
 
