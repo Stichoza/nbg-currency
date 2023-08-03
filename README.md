@@ -50,9 +50,6 @@ This package has three main static methods from which you can access currency ra
 
 The `NbgCurrency::rate()` method returns a currency rate in `float`.
 
-> **Important**
-> The rate is always for a **single unit**. The original NBG JSON API returns rate for different amounts per currency. For example Japanese Yen (JPY) rate will be 1.9865 and quantity will be set to 100 (100 JPY is 1.9865 GEL). It is quite confusing during calculations so **this package always returns price per single unit**. So in this case JPY will be 0.019865 (1 JPY is 0.019865 GEL).
-
 ```php
 NbgCurrency::rate(string $code, DateTimeInterface|string|null $date = null): float
 ```
@@ -61,6 +58,9 @@ NbgCurrency::rate(string $code, DateTimeInterface|string|null $date = null): flo
 |-----------|---------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | `$code`   |         | Currency code, not case-sensitive                                                                                                         |
 | `$date`   | `null`  | Date of currency rate: [Carbon](https://carbon.nesbot.com), [DateTime](https://www.php.net/manual/en/class.datetime.php), string or null. |
+
+> **Important**
+> The rate is always for a **single unit**. The original NBG JSON API returns rate for different amounts per currency. For example Japanese Yen (JPY) rate will be 1.9865 and quantity will be set to 100 (100 JPY is 1.9865 GEL). It is quite confusing during calculations so **this package always returns price per single unit**. So in this case JPY will be 0.019865 (1 JPY is 0.019865 GEL).
 
 **Examples:**
 
