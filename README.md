@@ -11,7 +11,8 @@ Install this package via [Composer](https://getcomposer.org/).
 ```
 composer require stichoza/nbg-currency
 ```
-> Note: PHP 8.1 or later is required. Use following versions of this package for older PHP versions:
+> **Note**
+> PHP 8.1 or later is required. Use following versions of this package for older PHP versions:
 
 | Package version | PHP Version  | Documentation                                                                                 |
 |-----------------|--------------|-----------------------------------------------------------------------------------------------|
@@ -49,7 +50,8 @@ This package has three main static methods from which you can access currency ra
 
 The `NbgCurrency::rate()` method returns a currency rate in `float`.
 
-**Note:** The rate is always for a **single unit**. The original NBG JSON API returns rate for different amounts per currency. For example Japanese Yen (JPY) rate will be 1.9865 and quantity will be set to 100 (100 JPY is 1.9865 GEL). It is quite confusing during calculations so **this package always returns price per single unit**. So in this case JPY will be 0.019865 (1 JPY is 0.019865 GEL).
+> **Important**
+> The rate is always for a **single unit**. The original NBG JSON API returns rate for different amounts per currency. For example Japanese Yen (JPY) rate will be 1.9865 and quantity will be set to 100 (100 JPY is 1.9865 GEL). It is quite confusing during calculations so **this package always returns price per single unit**. So in this case JPY will be 0.019865 (1 JPY is 0.019865 GEL).
 
 ```php
 NbgCurrency::rate(string $code, DateTimeInterface|string|null $date = null): float
@@ -122,7 +124,8 @@ $class = $usd->changeString('text-red', 'text-gray', 'text-green');
 $icon  = $usd->changeString('fa-arrow-down', 'fa-circle', 'fa-arrow-down');
 ```
 
-**Note:** All properties of `Currency` class are declared as `readonly`. Updating them will result in Fatal Error.
+> **Note**
+> All properties of `Currency` class are declared as `readonly`. Updating them will result in Fatal Error.
 
 ## Advanced Usage
 
