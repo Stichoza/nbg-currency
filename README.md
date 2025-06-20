@@ -11,7 +11,7 @@ Install this package via [Composer](https://getcomposer.org/).
 ```
 composer require stichoza/nbg-currency
 ```
-> **Note**
+> [!Note]
 > PHP 8.1 or later is required. Use following versions of this package for older PHP versions:
 
 | Package version | PHP Version  | Documentation                                                                                 |
@@ -59,7 +59,7 @@ NbgCurrency::rate(string $code, DateTimeInterface|string|null $date = null): flo
 | `$code`   |         | Currency code, not case-sensitive                                                                                                         |
 | `$date`   | `null`  | Date of currency rate: [Carbon](https://carbon.nesbot.com), [DateTime](https://www.php.net/manual/en/class.datetime.php), string or null. |
 
-> **Important**
+> [!Caution]
 > The rate is always for a **single unit**. The original NBG JSON API returns rate for different amounts per currency. For example Japanese Yen (JPY) rate will be 1.9865 and quantity will be set to 100 (100 JPY is 1.9865 GEL). It is quite confusing during calculations so **this package always returns price per single unit**. So in this case JPY will be 0.019865 (1 JPY is 0.019865 GEL).
 
 **Examples:**
@@ -124,7 +124,7 @@ $class = $usd->changeString('text-red', 'text-gray', 'text-green');
 $icon  = $usd->changeString('fa-arrow-down', 'fa-circle', 'fa-arrow-down');
 ```
 
-> **Note**
+> [!Important]
 > All properties of `Currency` class are declared as `readonly`. Updating them will result in Fatal Error.
 
 ## Advanced Usage
