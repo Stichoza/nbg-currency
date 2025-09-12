@@ -30,7 +30,7 @@ class ExceptionsTest extends TestCase
     {
         $this->expectException(DateNotFoundException::class);
 
-        NbgCurrency::date('2000-01-01');
+        NbgCurrency::date('2100-01-01');
     }
 
     public function testInvalidDateException(): void
