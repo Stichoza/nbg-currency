@@ -16,7 +16,7 @@ composer require stichoza/nbg-currency
 
 | Package version | PHP Version  | Documentation                                                                                 |
 |-----------------|--------------|-----------------------------------------------------------------------------------------------|
-| `v3.0`          | PHP >= 8.1   | [v3 Docs](#nbg-currency)                                                                      |
+| `v3.1`          | PHP >= 8.1   | [v3 Docs](#nbg-currency)                                                                      |
 | `v2.0`          | PHP >= 7.1.8 | [v2 Docs](https://github.com/Stichoza/nbg-currency/tree/2.0#nbg-currency)                     |
 | ~~`v1.2`~~      | PHP >= 5.5.9 | ~~[v1.2 Docs](https://github.com/Stichoza/nbg-currency/tree/1.2#nbg-currency)~~ (Not working) |
 
