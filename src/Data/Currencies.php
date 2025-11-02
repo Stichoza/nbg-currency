@@ -12,6 +12,9 @@ use Stichoza\NbgCurrency\NbgCurrency;
 use Throwable;
 use Traversable;
 
+/**
+ * @implements IteratorAggregate<\Stichoza\NbgCurrency\Data\Currency>
+ */
 class Currencies implements IteratorAggregate, Countable
 {
     public readonly Carbon $date;
@@ -112,7 +115,7 @@ class Currencies implements IteratorAggregate, Countable
     /**
      * Count of currencies
      *
-     * @return int<0,max> The count of currencies
+     * @return int<0, max> The count of currencies
      */
     public function count(): int
     {
