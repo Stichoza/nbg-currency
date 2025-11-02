@@ -21,6 +21,10 @@ class Currencies implements IteratorAggregate, Countable
      */
     protected array $currencies = [];
 
+    /**
+     * @param array<int, mixed> $data Raw data array
+     * @param \Carbon\Carbon $date Date of currency rates
+     */
     public function __construct(array $data, Carbon $date)
     {
         $this->date = $date;
@@ -55,7 +59,7 @@ class Currencies implements IteratorAggregate, Countable
     /**
      * Push new currency data
      *
-     * @param array $data Array from API
+     * @param array<string, mixed> $data Array from API
      *
      * @return \Stichoza\NbgCurrency\Data\Currency|null
      */
@@ -86,7 +90,7 @@ class Currencies implements IteratorAggregate, Countable
     /**
      * Push multiple items from raw array to $currencies
      *
-     * @param array $data Raw data array
+     * @param array<int, mixed> $data Raw data array
      *
      * @return void
      */
@@ -98,8 +102,7 @@ class Currencies implements IteratorAggregate, Countable
     /**
      * Retrieve an external iterator
      *
-     * @return Traversable<string, \Stichoza\NbgCurrency\Data\Currency>|\Stichoza\NbgCurrency\Data\Currency[]
-     * @throws Exception on failure.
+     * @return \Traversable<string, \Stichoza\NbgCurrency\Data\Currency>
      */
     public function getIterator(): Traversable
     {
