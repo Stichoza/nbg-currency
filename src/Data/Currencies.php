@@ -45,11 +45,11 @@ class Currencies implements IteratorAggregate, Countable
     }
 
     /**
-     * Check if a given currency is contained in currencies array
+     * Check if a given currency is contained in the $currencies array
      *
      * @param string $code Currency code
      *
-     * @return bool If a given currency is contained in currencies array
+     * @return bool If a given currency is contained in $currencies array
      */
     public function has(string $code): bool
     {
@@ -88,7 +88,7 @@ class Currencies implements IteratorAggregate, Countable
     }
 
     /**
-     * Push multiple items from raw array to $currencies
+     * Push multiple items from a raw array to $currencies
      *
      * @param array<int, mixed> $data Raw data array
      *

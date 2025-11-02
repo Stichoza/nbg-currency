@@ -90,7 +90,7 @@ class NbgCurrency
             $carbon = Carbon::today(static::TIMEZONE);
         }
 
-        // Pass null instead of $carbon if date is today, but set array key using $carbon
+        // Pass null instead of $carbon if the date is today, but set an array key using $carbon
 
         if (static::$caching) {
             return static::$currencies[$carbon->toDateString()][$language] ??= static::request($carbon, $language, !$date);
