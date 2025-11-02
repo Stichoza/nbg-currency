@@ -65,7 +65,7 @@ class NbgCurrency
      */
     public static function get(string $code, DateTimeInterface|string|null $date = null, string $language = 'ka'): Currency
     {
-        return static::date($date, $language)?->get($code);
+        return static::date($date, $language)->get($code);
     }
 
     /**
