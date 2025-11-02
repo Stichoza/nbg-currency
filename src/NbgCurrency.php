@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stichoza\NbgCurrency;
 
 use Carbon\Carbon;
