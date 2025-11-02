@@ -7,7 +7,6 @@ namespace Stichoza\NbgCurrency\Data;
 use ArrayIterator;
 use Carbon\Carbon;
 use Countable;
-use Exception;
 use IteratorAggregate;
 use Stichoza\NbgCurrency\Exceptions\CurrencyNotFoundException;
 use Stichoza\NbgCurrency\NbgCurrency;
